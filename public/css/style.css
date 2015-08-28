@@ -1,0 +1,9 @@
+body {
+    padding-top: 70px;
+}
+
+.datepicker {
+    visibility: visible;
+    opacity: 1;
+    width: auto;
+}

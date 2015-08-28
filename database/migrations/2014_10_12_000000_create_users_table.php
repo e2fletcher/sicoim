@@ -18,10 +18,10 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('ident')->unique();
             $table->enum('ident_t', ['v', 'e']);
-            $table->integer('sucursal_id')->unsigned();
             $table->string('telefono', 20);
-            $table->foreign('sucursal_id')->references('id')->on('sucursals');
             $table->string('password', 60);
+            $table->integer('sucursal_id')->unsigned();
+            $table->foreign('sucursal_id')->references('id')->on('sucursals');
             $table->rememberToken();
             $table->timestamps();
         });
