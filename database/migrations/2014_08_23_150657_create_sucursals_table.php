@@ -12,7 +12,7 @@ class CreateSucursalsTable extends Migration
 			Schema::create('sucursals', function(Blueprint $table) {
 				$table->engine = 'InnoDB';
 				$table->increments('id');
-				$table->string('codigo', 50)->unique();
+				$table->string('codigo')->unique();
 				$table->string('nombre', 100)->unique();
 				$table->string('lugar', 100);
 				$table->string('telefono', 20);
