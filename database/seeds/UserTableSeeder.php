@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\User;
 
 class UserTableSeeder extends Seeder
 {
@@ -9,19 +10,13 @@ class UserTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
-    {
+	public function run()
+	{
 		\DB::table('users')->delete();
-		\DB::table('users')->insert(array(
-			'name' => 'admin',
-			'email' => 'admin@admin.com',
-			'ident' => '0000000000',
-			'ident_t' => 'v',
-			'sucursal_id' => \DB::table('sucursals')->first()->id,
-			'telefono' => '0000000000',
-			'password' => \Hash::make('admin'),
-			'created_at' => new DateTime('NOW'),
-			'updated_at' => new DateTime('NOW')
-		));
-    }
+		$admin = new User;
+		$admin->email = 'admin@admin.com';
+		$admin->name = 'admin';
+		$admin->password = \Hash::make('admin');
+		$admin->save();
+	}
 }

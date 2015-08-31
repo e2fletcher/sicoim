@@ -12,6 +12,13 @@ use App\Tipo;
 
 class TiposController extends Controller
 {
+	
+	public function __construct()
+	{
+		$this->middleware('auth');
+		//$this->middleware('roles:list_tipos');
+	}
+
 	public function index(Request $request)
 	{
 		if($request->search)

@@ -13,10 +13,9 @@ class CreateSucursalsTable extends Migration
 				$table->engine = 'InnoDB';
 				$table->increments('id');
 				$table->string('codigo')->unique();
-				$table->string('nombre', 100)->unique();
-				$table->string('lugar', 100);
-				$table->string('telefono', 20);
-				$table->index('lugar');
+				$table->string('nombre')->unique();
+				$table->string('direccion');
+				$table->string('tlf');
 				$table->timestamps();
 			});
 		}

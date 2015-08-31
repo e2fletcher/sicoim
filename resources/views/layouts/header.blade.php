@@ -48,14 +48,16 @@
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
+			@if(Auth::check())
 			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Configuraciones<span class="caret"></span></a>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-user"></i> <span class="text-capitalize">{{ Auth::user()->name }}</span>
+				<span class="caret"></span></a>
 				<ul class="dropdown-menu">
-            <li><a href="#">Usuarios</a></li>
-          </ul>
-        </li>
-
-		<li><a href="#">Salir</a></li>
+					<li><a href="{!! route('auth/logout') !!}">Salir</a></li>
+				</ul>
+			</li>
+			@endif
 	  </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

@@ -138,7 +138,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
-        'Zizaco\Entrust\EntrustServiceProvider',
         'Barryvdh\DomPDF\ServiceProvider',
         /*
          * Application Service Providers...
@@ -196,7 +195,6 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 
         'PDF' => 'Barryvdh\DomPDF\Facade',
-        'Entrust' => 'Zizaco\Entrust\EntrustFacade',
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
 	],

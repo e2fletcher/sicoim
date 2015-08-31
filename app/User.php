@@ -35,6 +35,21 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 	public function sucursal()
 	{
-		return $this->belongsTo('App\Sucursal');
+		$sucursales = $this->belongsToMany('App\Sucursal', 'users_sucursals');
+		return $sucursales->first();
+	}
+
+	public function roles()
+	{
+		return $this->belongsToMany('App\Role', 'users_roles');
+	}
+
+	public function hasRole($role)
+	{
+		foreach ($this->roles->all() as $r) {
+			if($r->name == $role)
+				return true;
+		}
+		return false;
 	}
 }
