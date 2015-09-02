@@ -20,8 +20,8 @@
         @yield('head')
     </head>
   <body>
-    @include('layouts.header')
-    <div class="container">
+	@include('layouts.header')
+	<div class="container">
 		@yield('content')
     </div> <!-- /container -->
 

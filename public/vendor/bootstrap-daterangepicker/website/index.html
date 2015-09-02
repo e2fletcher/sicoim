@@ -336,7 +336,7 @@
                         <h2>Configuration Generator</h2>
 
                         <div class="well configurator">
-                           
+                                           
                           <form>
                           <div class="row">
 
@@ -400,15 +400,15 @@
                                 </label>
                               </div>
 
-                              <div class="form-group">
-                                <label for="timePickerIncrement">timePickerIncrement (in minutes)</label>
-                                <input type="text" class="form-control" id="timePickerIncrement" value="1">
-                              </div>
-
                               <div class="checkbox">
                                 <label>
                                   <input type="checkbox" id="timePicker24Hour"> timePicker24Hour
                                 </label>
+                              </div>
+
+                              <div class="form-group">
+                                <label for="timePickerIncrement">timePickerIncrement (in minutes)</label>
+                                <input type="text" class="form-control" id="timePickerIncrement" value="1">
                               </div>
 
                               <div class="checkbox">
@@ -437,7 +437,13 @@
 
                               <div class="checkbox">
                                 <label>
-                                  <input type="checkbox" id="linkedCalendars" checked="checked"> linked calendars
+                                  <input type="checkbox" id="linkedCalendars" checked="checked"> linkedCalendars
+                                </label>
+                              </div>
+
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" id="autoUpdateInput" checked="checked"> autoUpdateInput
                                 </label>
                               </div>
 
@@ -445,13 +451,20 @@
                             <div class="col-md-4">
 
                               <div class="form-group">
-                                <label for="opens">opens (left/center/right)</label>
-                                <input type="text" class="form-control" id="opens" value="left">
+                                <label for="opens">opens</label>
+                                <select id="opens" class="form-control">
+                                  <option value="right" selected>right</option>
+                                  <option value="left">left</option>
+                                  <option value="center">center</option>
+                                </select>
                               </div>
 
                               <div class="form-group">
-                                <label for="drops">drops (down/up)</label>
-                                <input type="text" class="form-control" id="drops" value="down">
+                                <label for="drops">drops</label>
+                                <select id="drops" class="form-control">
+                                  <option value="down" selected>down</option>
+                                  <option value="up">up</option>
+                                </select>
                               </div>
 
                               <div class="form-group">
@@ -478,18 +491,18 @@
 
                         <div class="row">
 
-                          <div class="col-md-8">
+                          <div class="col-md-4 col-md-offset-2 demo">
+                            <h4>Your Date Range Picker</h4>
+                            <input type="text" id="config-demo" class="form-control">
+                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                          </div>
+
+                          <div class="col-md-6">
                             <h4>Configuration</h4>
 
                             <div class="well">
                               <textarea id="config-text" style="height: 300px; width: 100%; padding: 10px"></textarea>
                             </div>
-
-                          </div>
-                          <div class="col-md-4 demo">
-                            <h4>Your Date Range Picker</h4>
-                            <input type="text" id="config-demo" class="form-control">
-                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                           </div>
 
                         </div>
@@ -569,6 +582,16 @@
                             </li>
                             <li>
                                 <code>parentEl</code>: (string) jQuery selector of the parent element that the date range picker will be added to, if not provided this will be 'body'
+                            </li>
+                            <li>
+                                <code>isInvalidDate</code>: (function) A function that is passed each date in the two
+                                calendars before they are displayed, and may return true or false to indicate whether
+                                that date should be available for selection or not.
+                            </li>
+                            <li>
+                                <code>autoUpdateInput</code>: (boolean) Indicates whether the date range picker should
+                                automatically update the value of an <code>&lt;input&gt;</code> element it's attached to
+                                at initialization and when the selected dates change.
                             </li>
                         </ul>
 

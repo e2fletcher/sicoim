@@ -29,7 +29,7 @@
 							<thead>
 								<tr>
 									<th>Código</th>
-									<th>Descripción</th>
+									<th>Nombre</th>
 									<th>Origen</th>
 									<th>Unidad</th>
 									<th>Cantidad</th>
@@ -37,10 +37,10 @@
 								</tr>
 							<tbody>
 								@foreach ($tipos as $tipo)
-								<tr data-id="{{ $tipo->id  }}" data-nombre="{{ $tipo->nombre }}" data-codigo="{{ $tipo->codigo }}">
+								<tr data-id="{{ $tipo->id  }}" data-nombre="{{ $tipo->nombre }}" data-codigo="{{ $tipo->codigo }}" data-origen="{{ $tipo->origen }}" data-unidad="{{ $tipo->unidad }}" data-cantidad="{{ $tipo->cantidad }}">
 									<td class="col-md-2 text-uppercase">{{ $tipo->codigo }}</td>
 									<td class="col-md-3 text-uppercase">{{ $tipo->nombre }}</td>
-									<td class="col-md-2 text-uppercase">{{ $tipo->tipo }}</td>
+									<td class="col-md-2 text-uppercase">{{ $tipo->origen }}</td>
 									<td class="col-md-2 text-uppercase">{{ $tipo->unidad }}</td>
 									<td class="col-md-1 text-uppercase text-right">{{ $tipo->cantidad }}</td>
 									<td class="col-md-2 text-right">
@@ -76,13 +76,15 @@
 		});
 		
 		$("#tipos_modal_form").on('show.bs.modal', function(e){
-			console.log($(e.relatedTarget).parents('tr'));
 			if($(e.relatedTarget).data('name') == 'tipos_index-buttonedit')
 			{
 				tipo = $(e.relatedTarget).parents("tr");
-				$($(this).find("input")[3]).val(tipo.data("id"));
-				$($(this).find("input")[0]).val(tipo.data("codigo"));
-				$($(this).find("input")[1]).val(tipo.data("nombre"));
+				$("input#tipos_modal_form-id").val(tipo.data("id"));
+				$("input#tipos_modal_form-codigo").val(tipo.data("codigo"));
+				$("input#tipos_modal_form-nombre").val(tipo.data("nombre"));
+				$("select#tipos_modal_form-unidad").val(tipo.data("unidad"));
+				$("input#tipos_modal_form-cantidad").val(tipo.data("cantidad"));
+				$("select#tipos_modal_form-origen").val(tipo.data("origen"));
 				
 				$('#tipos_modal_form-form').attr('action', '{!! action('TiposController@update') !!}');
 				$('#tipos_modal_form-title').text("Modificar tipo de producto");
@@ -97,7 +99,7 @@
 
 		$($('#layouts_modal_alert').find("button")[2]).button().click(function(){
 			$.ajax({
-				url: "{!! action("TiposController@destroy") !!}",
+			url: "{!! action("TiposController@destroy") !!}",
 				data: {"id" : tipo.data("id")}
 			})
 				.done(function(){

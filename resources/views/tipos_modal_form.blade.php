@@ -19,14 +19,14 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="tipos_modal_form-nombre">Descripción</label>
+								<label for="tipos_modal_form-nombre">Nombre</label>
 								<input type="text" name="nombre" class="form-control" id="tipos_modal_form-nombre" placeholder="">
 							</div>
 							<div class="form-group">
-								<label for="tipos_modal_form-tipo">Tipo</label>
+								<label for="tipos_modal_form-origen">Origen</label>
 								<div class="row">
 									<div class="col-md-3">
-										<select class="form-control" id="tipos_modal_form-tipo" name="tipo">
+										<select class="form-control" id="tipos_modal_form-origen" name="origen">
 											<option value="casa">Casa</option>
 											<option value="regional">Regional</option>
 										</select>
@@ -63,7 +63,7 @@
 					<button type="submit" class="btn btn-primary">Guardar</button>
 				</div>
 				<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-				<input type="hidden" name="id"/>
+				<input type="hidden" id="tipos_modal_form-id" name="id"/>
 			</form>
 		</div>
 	</div>
