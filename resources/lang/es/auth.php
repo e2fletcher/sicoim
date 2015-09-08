@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'failed' => 'Mierda con sangre'
+    'failed' => 'Usted no tiene suficientes privilegios para realizar esta operación'
 ];
