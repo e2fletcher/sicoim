@@ -26,6 +26,8 @@ class TiposController extends Controller
 			$tipos = DB::table('tipos')
 				->where('codigo', 'like', '%' . $request->search . '%')
 				->orWhere('nombre', 'like', '%' . $request->search . '%')
+				->orWhere('origen', 'like', '%' . $request->search . '%')
+				->orWhere('unidad', 'like', '%' . $request->search . '%')
 				->paginate(5);
 		}
 		else
@@ -45,7 +47,7 @@ class TiposController extends Controller
 	{
 		$tipo = new Tipo;
 		$tipo->nombre = Str::lower($request->nombre);
-		$tipo->tipo = Str::lower($request->tipo);
+		$tipo->origen = Str::lower($request->origen);
 		$tipo->unidad = Str::lower($request->unidad);
 		$tipo->codigo = Str::lower($request->codigo);
 		$tipo->cantidad = $request->cantidad;
@@ -53,9 +55,8 @@ class TiposController extends Controller
 		
 		$alert =
 		[
-			'title' => 'Elemento agregado!',
 			'type' => 'warning',
-			'message' => $tipo->nombre . ' fué agregado satisfactoriamente.'
+			'message' => Lang::get('message.model-create', ['model' => 'tipo de producto', 'name' => $tipo->name]);
 		];
 
 		return redirect()->action('TiposController@index', ['alert' => $alert]);
@@ -66,14 +67,13 @@ class TiposController extends Controller
 		$tipo = Tipo::find($request->id);
 		$tipo->codigo = Str::lower($request->codigo);
 		$tipo->nombre = Str::lower($request->nombre);
-		$tipo->tipo = Str::lower($request->tipo);
+		$tipo->origen = Str::lower($request->origen);
 		$tipo->cantidad = $request->cantidad;
 		$tipo->unidad = Str::lower($request->unidad);
 		$tipo->save();
 		
 		$alert =
 		[
-			'title' => 'Elemento modificado!',
 			'type' => 'warning',
 			'message' => $tipo->nombre . ' fué editado satisfactoriamente.'
 		];

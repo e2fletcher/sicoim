@@ -12,9 +12,9 @@ class CreateTiposTable extends Migration
 			Schema::create('tipos', function(Blueprint $table) {
 				$table->engine = 'InnoDB';
 				$table->increments('id');
-				$table->string('codigo', 50)->unique();
-				$table->string('nombre', 100)->unique();
-				$table->enum('tipo', ['casa', 'regional']);
+				$table->string('codigo')->unique();
+				$table->string('nombre')->unique();
+				$table->enum('origen', ['casa', 'regional']);
 				$table->enum('unidad', ['kilos', 'litros', 'unidad', 'caja', 'paquete']);
 				$table->float('cantidad');
 				$table->timestamps();

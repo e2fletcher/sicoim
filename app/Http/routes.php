@@ -24,6 +24,17 @@ Route::post('tipos/update', 'TiposController@update');
 Route::get('tipos/destroy', 'TiposController@destroy');
 
 /**
+ * Modulos proveedores
+ */
+Route::get('provedors/search', 'ProvedorsController@search');
+
+/**
+ * Modulos encargados de las recepciones de productos
+ */
+Route::get('recepcions', 'RecepcionsController@index');
+Route::post('recepcions/create', 'RecepcionsController@create');
+
+/**
  * Rutas a paginas de pruebas
  */
 Route::get('test', function(){

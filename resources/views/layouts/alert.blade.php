@@ -1,4 +1,4 @@
 <div class="alert alert-{{ $alert["type"] }} alert-dismissible fade in" role="alert">
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-	<strong>{{ $alert["title"] }}</strong> {{ $alert["message"] }}
+	{{ $alert["message"] }}
 	</div>

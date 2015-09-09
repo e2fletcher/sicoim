@@ -7,12 +7,12 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="#">Sicoime</a>
+		<a class="navbar-brand" href="#"></a>
 	</div>
 
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		@if(Auth::check())
 		<ul class="nav navbar-nav">
-
 			<li class="active"><a href="/">Inicio<span class="sr-only">(current)</span></a></li>
 
 			<li><a href="#">Ventas</a></li>
@@ -44,11 +44,9 @@
 					<li><a href="#">Consultar</a></li>
 				</ul>
 			</li>
-
 		</ul>
 
 		<ul class="nav navbar-nav navbar-right">
-			@if(Auth::check())
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 						<i class="fa fa-user"></i> <span class="text-capitalize">{{ Auth::user()->name }}</span>
@@ -57,8 +55,8 @@
 					<li><a href="{!! route('auth/logout') !!}">Salir</a></li>
 				</ul>
 			</li>
-			@endif
 	  </ul>
+	@endif
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
