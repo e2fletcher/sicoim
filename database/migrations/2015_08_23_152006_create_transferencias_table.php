@@ -13,10 +13,12 @@ class CreateTransferenciasTable extends Migration
 				$table->engine = 'InnoDB';
 				$table->increments('id');
 				$table->integer('sucursal_id')->unsigned();
+				$table->integer('sucursal_hasta_id')->unsigned();
 				$table->integer('user_id')->unsigned();
 				$table->timestamps();
 				$table->foreign('user_id')->references('id')->on('users');
 				$table->foreign('sucursal_id')->references('id')->on('sucursals');
+				$table->foreign('sucursal_hasta_id')->references('id')->on('sucursals');
 			});
 		}
 	}

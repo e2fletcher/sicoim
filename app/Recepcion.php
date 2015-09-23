@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Recepcion extends Model
 {
-	public function productos()
+	public function detallesRecepcion()
 	{
-		return $this->belongsToMany('App\Producto', 'recepcions_productos');
+		return $this->hasMany('App\Detallesrecepcion');
 	}
 }

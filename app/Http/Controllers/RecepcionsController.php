@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use DB;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Recepcion;
+use App\Detallesrecepcion;
 use App\Producto;
 
 class RecepcionsController extends Controller
@@ -45,19 +46,36 @@ class RecepcionsController extends Controller
 
 			foreach ($request->productos as $producto)
 			{
-				for ($i = 0; $i < $producto['cantidad']; $i++) {
-					$p = new Producto;
-					$p->tipo_id = $producto['tipo_id'];
-					$p->sucursal_id = \Auth::user()->sucursal()->id;
-					$p->proveedor_id = $request->proveedor_id;
-					$p->caducidad = $producto['caducidad'];
-					$p->precio = $producto['tipo_precio'];
-					$p->estado = 0;
-					$p->save();
-					$idsProductos[] = $p->id;
+				$detalles = new Detallesrecepcion;
+				$detalles->recepcion_id = $request->recepcion_id;
+				$detalles->tipo_id = $producto["tipo_id"];
+				$detalles->cantidad = $producto["cantidad"];
+				$detalles->precio = $producto["tipo_precio"];
+				$detalles->caducidad = $producto["caducidad"];
+				$detalles->save();
+
+				$query = DB::table('productos')
+					->where('sucursal_id', \Auth::user()->sucursal()->id)
+					->where('tipo_id', $producto["tipo_id"])
+					->first();
+
+				if ($query) {
+					$exist = Producto::find($query->id);
+					$exist->stock += $producto["cantidad"];
+					$exist->precio = $producto["tipo_precio"];
+					$exist->save();
+				}
+				else
+				{
+					$new = new Producto;
+					$new->tipo_id = $producto["tipo_id"];
+					$new->sucursal_id = \Auth::user()->sucursal()->id;
+					$new->precio = $producto["tipo_precio"];
+					$new->stock = $producto["cantidad"];
+					$new->save();
 				}
 			}
-			$recepcion->productos()->sync($idsProductos);
+		
 			$success = true;
 		
 		}
@@ -75,8 +93,7 @@ class RecepcionsController extends Controller
 				'type' => 'success',
 				'message' => 'La recepción nº ' . $recepcion->id . ' fué generada satisfactoriamente :). ',
 				'actions' => [
-					['name' => 'Deshacer', 'value' => action('RecepcionsController@destroy') . '?id=' . $recepcion->id],
-					['name' => 'Imprimir', 'value' => action('RecepcionsController@printer') . '?id=' . $recepcion->id]
+					['name' => 'Imprimir', 'value' => action('RecepcionsController@printer') . '?id=' . $recepcion->id],
 				]
 			];
 
@@ -96,39 +113,5 @@ class RecepcionsController extends Controller
 
 	public function destroy(Request $request)
 	{
-		$success = false;
-
-		\DB::beginTransaction();
-		
-		try
-		{
-			$recepcion = Recepcion::find($request->id);
-			$productos = $recepcion->productos();
-			$productos->delete();
-			$recepcion->delete();
-			$success = true;
-		
-		}
-		catch (Exception $e)
-		{
-		
-		}
-		
-		if ($success)
-		{
-			\DB::commit();
-			
-			$alert =
-			[
-				'type' => 'warning',
-				'message' => 'La recepción fué borrada satisfactoriamente :).',
-			];
-
-			return redirect()->action('RecepcionsController@index', ['alert' => $alert]);
-		}
-		else
-		{
-			\DB::rollback();
-		}
 	}
 }
