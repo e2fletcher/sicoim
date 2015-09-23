@@ -3,7 +3,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-default">
-			<div class="panel-heading">LISTA DE PRODUCTOS</div>
+			<div class="panel-heading"><i class="fa fa-barcode"></i> LISTA DE PRODUCTOS</div>
 			<div class="panel-body">
 				@if(isset($alert))
 				<div class="row">
@@ -15,11 +15,11 @@
 				<div class="row">
 					<div class="col-md-12">
 						<form class="navbar-form navbar-left" role="search" action="{!! action('TiposController@index')  !!}">
-							<button type="button" class="btn btn-primary" id="tipos_index-buttonadd"><i class="fa fa-plus-square"></i> Agregar</button>
 							<div class="form-group">
-								<input type="text" name="search" class="form-control" placeholder="Tipo de Producto">
+								<input type="text" name="search" class="form-control" placeholder="Tipo de producto">
 							</div>
-							<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+							<button class="btn btn-default" type="submit" id="button_search"><i class="fa fa-search"></i></button>
+							<button class="btn btn-default" type="button" id="index-buttonadd"><i class="fa fa-plus-square"></i> Agregar</button>
 						</form>
 					</div>
 				</div>
@@ -31,20 +31,32 @@
 									<th>Código</th>
 									<th>Nombre</th>
 									<th>Origen</th>
-									<th>Unidad</th>
+									<th>Presentacion</th>
 									<th>Cantidad</th>
+									<th class="text-right">Precio</th>
 									<th></th>
 								</tr>
 							<tbody>
 								@foreach ($tipos as $tipo)
-								<tr data-id="{{ $tipo->id  }}" data-nombre="{{ $tipo->nombre }}" data-codigo="{{ $tipo->codigo }}" data-origen="{{ $tipo->origen }}" data-unidad="{{ $tipo->unidad }}" data-cantidad="{{ $tipo->cantidad }}">
-									<td class="col-md-2 text-uppercase">{{ $tipo->codigo }}</td>
-									<td class="col-md-3 text-uppercase">{{ $tipo->nombre }}</td>
-									<td class="col-md-2 text-uppercase">{{ $tipo->origen }}</td>
-									<td class="col-md-2 text-uppercase">{{ $tipo->unidad }}</td>
-									<td class="col-md-1 text-uppercase text-right">{{ $tipo->cantidad }}</td>
+								<tr
+									data-id="{{ $tipo->id  }}"
+									data-codigo="{{ $tipo->codigo }}"
+									data-nombre="{{ $tipo->nombre }}"
+									data-origen="{{ $tipo->origen }}"
+									data-generic_tipo="{{ $tipo->generic_tipo }}"
+									data-presentacion="{{ $tipo->presentacion }}"
+									data-unidad="{{ $tipo->unidad }}"
+									data-cantidad="{{ $tipo->cantidad }}"
+									data-precio="{{ $tipo->precio }}"
+								>
+									<td class="col-md-2"><i class="fa fa-barcode"></i> {{ $tipo->codigo }}</td>
+									<td class="col-md-2">{{ $tipo->nombre }}</td>
+									<td class="col-md-2">{{ $tipo->origen }}</td>
+									<td class="col-md-2">{{ $tipo->presentacion }}</td>
+									<td class="col-md-1">{{ $tipo->cantidad }}</td>
+									<td class="col-md-1 text-right">{{ $tipo->precio }}</td>
 									<td class="col-md-2 text-right">
-										<button class="btn btn-default" type="button" data-name="tipos_index-buttonedit" data-toggle="modal" data-target="#tipos_modal_form"><i class="fa fa-edit"></i></button>
+										<button class="btn btn-default" type="button" data-name="index-buttonedit" data-toggle="modal" data-target="#tipo_modal_form"><i class="fa fa-edit"></i></button>
 										<button class="btn btn-warning" type="button" data-toggle="modal" data-target="#layouts_modal_alert"><i class="fa fa-trash"></i></button>
 									</td>
 								</tr>
@@ -60,7 +72,7 @@
 		</div>
 	</div>
 </div>
-@include('tipos_modal_form')
+@include('tipos.modal_form')
 @include('layouts.modal_alert')
 @endsection
 
@@ -69,25 +81,29 @@
 	var tipo;
 
 	$(document).ready(function(){
-		$("#tipos_index-buttonadd").button().click(function(){
-			$('#tipos_modal_form').modal("show");
-			$('#tipos_modal_form-title').text("Agregar tipo de producto");
-			$('#tipos_modal_form-form').attr('action', '{!! action('TiposController@create') !!}');
+		$("#index-buttonadd").button().click(function(){
+			$('#tipo_modal_form').modal("show");
+			$('#tipo_modal_form_title').text("Agregar");
+			$('#tipo_modal_form_form').attr('action', '{!! action('TiposController@create') !!}');
 		});
 		
-		$("#tipos_modal_form").on('show.bs.modal', function(e){
-			if($(e.relatedTarget).data('name') == 'tipos_index-buttonedit')
+		$("#tipo_modal_form").on('show.bs.modal', function(e){
+			if($(e.relatedTarget).data('name') == 'index-buttonedit')
 			{
 				tipo = $(e.relatedTarget).parents("tr");
-				$("input#tipos_modal_form-id").val(tipo.data("id"));
-				$("input#tipos_modal_form-codigo").val(tipo.data("codigo"));
-				$("input#tipos_modal_form-nombre").val(tipo.data("nombre"));
-				$("select#tipos_modal_form-unidad").val(tipo.data("unidad"));
-				$("input#tipos_modal_form-cantidad").val(tipo.data("cantidad"));
-				$("select#tipos_modal_form-origen").val(tipo.data("origen"));
-				
-				$('#tipos_modal_form-form').attr('action', '{!! action('TiposController@update') !!}');
-				$('#tipos_modal_form-title').text("Modificar tipo de producto");
+
+				$("input#tipo_modal_form_id").val(tipo.data("id"));
+				$("input#tipo_modal_form_codigo").val(tipo.data("codigo"));
+				$("input#tipo_modal_form_nombre").val(tipo.data("nombre"));
+				$("select#tipo_modal_form_origen").val(tipo.data("origen"));
+				$("select#tipo_modal_form_generic_tipo").val(tipo.data("generic_tipo"));
+				$("select#tipo_modal_form_presentacion").val(tipo.data("presentacion"));
+				$("select#tipo_modal_form_unidad").val(tipo.data("unidad"));
+				$("input#tipo_modal_form_cantidad").val(tipo.data("cantidad"));
+				$("input#tipo_modal_form_precio").val(tipo.data("precio"));
+
+				$('#tipo_modal_form_form').attr('action', '{!! action('TiposController@update') !!}');
+				$('#tipo_modal_form_title').text("Modificar");
 			}
 		});
 

@@ -14,7 +14,6 @@ class CreateVentasProductosTable extends Migration
 				$table->increments('id');
 				$table->integer('venta_id')->unsigned();
 				$table->bigInteger('producto_id')->unsigned();
-				$table->timestamps();
 				$table->foreign('venta_id')->references('id')->on('ventas');
 				$table->foreign('producto_id')->references('id')->on('productos');
 			});

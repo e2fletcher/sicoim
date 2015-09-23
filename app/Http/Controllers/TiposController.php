@@ -16,7 +16,6 @@ class TiposController extends Controller
 	public function __construct()
 	{
 		$this->middleware('auth');
-		//$this->middleware('roles:list_tipos');
 	}
 
 	public function index(Request $request)
@@ -26,8 +25,8 @@ class TiposController extends Controller
 			$tipos = DB::table('tipos')
 				->where('codigo', 'like', '%' . $request->search . '%')
 				->orWhere('nombre', 'like', '%' . $request->search . '%')
+				->orWhere('generic_tipo', 'like', '%' . $request->search . '%')
 				->orWhere('origen', 'like', '%' . $request->search . '%')
-				->orWhere('unidad', 'like', '%' . $request->search . '%')
 				->paginate(5);
 		}
 		else
@@ -46,17 +45,21 @@ class TiposController extends Controller
 	public function create(Request $request)
 	{
 		$tipo = new Tipo;
-		$tipo->nombre = Str::lower($request->nombre);
-		$tipo->origen = Str::lower($request->origen);
-		$tipo->unidad = Str::lower($request->unidad);
 		$tipo->codigo = Str::lower($request->codigo);
+		$tipo->generic_tipo = $request->generic_tipo;
+		$tipo->nombre = $request->nombre;
+		$tipo->origen = $request->origen;
+		$tipo->precio = $request->precio;
+		$tipo->presentacion = $request->presentacion;
 		$tipo->cantidad = $request->cantidad;
+		$tipo->unidad = $request->unidad;
+		
 		$tipo->save();
 		
 		$alert =
 		[
-			'type' => 'warning',
-			'message' => Lang::get('message.model-create', ['model' => 'tipo de producto', 'name' => $tipo->name]);
+			'type' => 'success',
+			'message' => \Lang::get('messages.model-create', ['model' => 'tipo de producto', 'name' => $tipo->nombre])
 		];
 
 		return redirect()->action('TiposController@index', ['alert' => $alert]);
@@ -64,18 +67,24 @@ class TiposController extends Controller
 
 	public function update(Request $request)
 	{
+
 		$tipo = Tipo::find($request->id);
+
 		$tipo->codigo = Str::lower($request->codigo);
-		$tipo->nombre = Str::lower($request->nombre);
-		$tipo->origen = Str::lower($request->origen);
+		$tipo->generic_tipo = $request->generic_tipo;
+		$tipo->nombre = $request->nombre;
+		$tipo->origen = $request->origen;
+		$tipo->precio = $request->precio;
+		$tipo->presentacion = $request->presentacion;
 		$tipo->cantidad = $request->cantidad;
-		$tipo->unidad = Str::lower($request->unidad);
+		$tipo->unidad = $request->unidad;
+
 		$tipo->save();
-		
+
 		$alert =
 		[
-			'type' => 'warning',
-			'message' => $tipo->nombre . ' fué editado satisfactoriamente.'
+			'type' => 'success',
+			'message' => \Lang::get('messages.model-update', ['model' => 'tipo de producto', 'name' => $tipo->nombre])
 		];
 		
 		return redirect()->action('TiposController@index', ['alert' => $alert]);
@@ -87,4 +96,17 @@ class TiposController extends Controller
 		$tipo->delete();
 		return $request->id;
 	}
+
+	public function search(Request $request)
+	{
+		if($request->q)
+		{
+			$tipos = DB::table('tipos')
+				->where('codigo', 'like', '%' . $request->q . '%')
+				->orWhere('nombre', 'like', '%' . $request->search . '%')
+				->orWhere('generic_tipo', 'like', '%' . $request->q . '%');
+			
+			return response()->json($tipos->get());
+		}
 	}
+}

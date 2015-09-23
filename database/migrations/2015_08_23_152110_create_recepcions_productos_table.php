@@ -14,9 +14,8 @@ class CreateRecepcionsProductosTable extends Migration
 				$table->increments('id');
 				$table->integer('recepcion_id')->unsigned();
 				$table->bigInteger('producto_id')->unsigned();
-				$table->timestamps();
 				$table->foreign('recepcion_id')->references('id')->on('recepcions');
-				$table->foreign('producto_id')->references('id')->on('productos');
+				$table->foreign('producto_id')->references('id')->on('productos')->onDelete('cascade');
 			});
 		}
 	}

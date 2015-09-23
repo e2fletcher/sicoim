@@ -14,7 +14,6 @@ class CreateTransferenciasProductosTable extends Migration
 				$table->increments('id');
 				$table->integer('transferencia_id')->unsigned();
 				$table->bigInteger('producto_id')->unsigned();
-				$table->timestamps();
 				$table->foreign('transferencia_id')->references('id')->on('transferencias');
 				$table->foreign('producto_id')->references('id')->on('productos');
 			});

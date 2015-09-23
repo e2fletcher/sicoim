@@ -12,11 +12,11 @@ class CreateSucursalsTable extends Migration
 			Schema::create('sucursals', function(Blueprint $table) {
 				$table->engine = 'InnoDB';
 				$table->increments('id');
-				$table->string('codigo')->unique();
+				$table->string('ident')->unique();
 				$table->string('nombre')->unique();
 				$table->string('direccion');
 				$table->string('tlf');
-				$table->timestamps();
+				$table->string('coordenadas');
 			});
 		}
 	}

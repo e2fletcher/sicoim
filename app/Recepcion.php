@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Recepcion extends Model
 {
-	protected $table = 'recepcion';
+	public function productos()
+	{
+		return $this->belongsToMany('App\Producto', 'recepcions_productos');
+	}
 }

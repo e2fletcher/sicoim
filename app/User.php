@@ -33,23 +33,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
 	protected $hidden = ['password', 'remember_token'];
 
+
+	public function sucursals()
+	{
+		return $this->belongsToMany('App\Sucursal', 'users_sucursals');
+	}
+
 	public function sucursal()
 	{
 		$sucursales = $this->belongsToMany('App\Sucursal', 'users_sucursals');
 		return $sucursales->first();
 	}
 
-	public function roles()
-	{
-		return $this->belongsToMany('App\Role', 'users_roles');
-	}
+	public $timestamps = false;
 
-	public function hasRole($role)
-	{
-		foreach ($this->roles->all() as $r) {
-			if($r->name == $role)
-				return true;
-		}
-		return false;
-	}
 }

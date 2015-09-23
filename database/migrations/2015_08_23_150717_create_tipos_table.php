@@ -14,9 +14,12 @@ class CreateTiposTable extends Migration
 				$table->increments('id');
 				$table->string('codigo')->unique();
 				$table->string('nombre')->unique();
-				$table->enum('origen', ['casa', 'regional']);
-				$table->enum('unidad', ['kilos', 'litros', 'unidad', 'caja', 'paquete']);
-				$table->float('cantidad');
+				$table->string('origen');
+				$table->string('generic_tipo');
+				$table->string('presentacion');
+				$table->string('unidad');
+				$table->integer('cantidad');
+				$table->float('precio');
 				$table->timestamps();
 			});
 		}

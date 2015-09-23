@@ -1,0 +1,29 @@
+{
+  "name": "typeahead.js-bootstrap3.less",
+  "version": "1.0.1",
+  "main": [
+    "typeaheadjs.css",
+    "typeaheadjs.less"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.1.0",
+    "typeahead.js": "~0.10.0"
+  },
+  "ignore": [
+    ".gitignore",
+    ".gitmodules",
+    ".travis.yml",
+    "package.json"
+  ],
+  "homepage": "https://github.com/bassjobsen/typeahead.js-bootstrap-css",
+  "_release": "1.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.0.1",
+    "commit": "70d73ff985a3b15804408d757ecd36cd1da2fb79"
+  },
+  "_source": "git://github.com/bassjobsen/typeahead.js-bootstrap-css.git",
+  "_target": "~1.0.1",
+  "_originalSource": "bassjobsen/typeahead.js-bootstrap-css",
+  "_direct": true
+}

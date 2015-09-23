@@ -2,7 +2,7 @@
 	<div class="container-fluid">
 		<div class="navbar-header">
 		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-			<span class="sr-only">Toggle navigation</span>
+			<span class="sr-only"></span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
@@ -14,34 +14,22 @@
 		@if(Auth::check())
 		<ul class="nav navbar-nav">
 			<li class="active"><a href="/">Inicio<span class="sr-only">(current)</span></a></li>
-
-			<li><a href="#">Ventas</a></li>
-
-			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Recepción<span class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li><a href="#">Desde Provedor</a></li>
-					<li><a href="#">Desde Sucursal</a></li>
-					<li role="separator" class="divider"></li>
-					<li><a href="#">Consultar</a></li>
-				</ul>
-			</li>
+			<li><a href="#"><i class="fa fa-shopping-cart"></i> Ventas<span class="sr-only"></span></a></li>
+			<li><a href="{!! action('RecepcionsController@index') !!}"><i class="fa fa-archive"></i> Recepciones<span class="sr-only"></span></a></li>
+			<li><a href="#">Transferencias<span class="sr-only"></span></a></li>
 
 			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Productos<span class="caret"></span></a>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Modificar<span class="caret"></span></a>
 				<ul class="dropdown-menu">
-					<li><a href="{!! action('TiposController@index')  !!}">Tipos</a></li>
-					<li role="separator" class="divider"></li>
-					<li><a href="#">Consultar</a></li>
-				</ul>
-			</li>
+					<li><a href="{!! action('ClientesController@index') !!}">Clientes<span class="sr-only"></span></a></li>
+					<li><a href="{!! action('ProveedorsController@index') !!}">Proveedores<span class="sr-only"></span></a></li>
+					@if(Auth::user()->type < 1)
+						<li><a href="{!! action('TiposController@index') !!}">Listas de productos<span class="sr-only"></span></a></li>
+					@endif
+					@if(Auth::user()->type < 2)
+						<li><a href="{!! action('SucursalsController@index') !!}">Sucursales<span class="sr-only"></span></a></li>
+					@endif
 
-			<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sucursales<span class="caret"></span></a>
-				<ul class="dropdown-menu">
-					<li><a href="#">Responsables</a></li>
-					<li role="separator" class="divider"></li>
-					<li><a href="#">Consultar</a></li>
 				</ul>
 			</li>
 		</ul>
@@ -52,6 +40,9 @@
 						<i class="fa fa-user"></i> <span class="text-capitalize">{{ Auth::user()->name }}</span>
 				<span class="caret"></span></a>
 				<ul class="dropdown-menu">
+					@if(Auth::user()->type < 1)
+						<li><a href="#">Configuracion de usuarios<span class="sr-only"></span></a></li>
+					@endif
 					<li><a href="{!! route('auth/logout') !!}">Salir</a></li>
 				</ul>
 			</li>

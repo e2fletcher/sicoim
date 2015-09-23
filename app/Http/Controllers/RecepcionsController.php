@@ -6,82 +6,129 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Recepcion;
+use App\Producto;
 
 class RecepcionsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        //
-    }
+	public function index(Request $request)
+	{
+		$newId = 0;
+		$lastRecepcion = \DB::table('recepcions')->max('id');
+		if ($lastRecepcion)
+			$newId = $lastRecepcion;
+		$newId += 1;
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
+	
+		if($request->alert)
+		{
+			return view('recepcions_index', ['newId' => $newId, 'alert' => $request->alert]);
+		}
+		
+		return view('recepcions_index', ['newId' => $newId]);
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Request  $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+	public function process(Request $request)
+	{
+		$success = false;
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
+		\DB::beginTransaction();
+		
+		try
+		{
+			$recepcion = new Recepcion;
+			$recepcion->id = $request->recepcion_id;
+			$recepcion->proveedor_id = $request->proveedor_id;
+			$recepcion->sucursal_id = \Auth::user()->sucursal()->id;
+			$recepcion->user_id = \Auth::user()->id;
+			$recepcion->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+			foreach ($request->productos as $producto)
+			{
+				for ($i = 0; $i < $producto['cantidad']; $i++) {
+					$p = new Producto;
+					$p->tipo_id = $producto['tipo_id'];
+					$p->sucursal_id = \Auth::user()->sucursal()->id;
+					$p->proveedor_id = $request->proveedor_id;
+					$p->caducidad = $producto['caducidad'];
+					$p->precio = $producto['tipo_precio'];
+					$p->estado = 0;
+					$p->save();
+					$idsProductos[] = $p->id;
+				}
+			}
+			$recepcion->productos()->sync($idsProductos);
+			$success = true;
+		
+		}
+		catch (Exception $e)
+		{
+		
+		}
+		
+		if ($success)
+		{
+			\DB::commit();
+			
+			$alert =
+			[
+				'type' => 'success',
+				'message' => 'La recepción nº ' . $recepcion->id . ' fué generada satisfactoriamente :). ',
+				'actions' => [
+					['name' => 'Deshacer', 'value' => action('RecepcionsController@destroy') . '?id=' . $recepcion->id],
+					['name' => 'Imprimir', 'value' => action('RecepcionsController@printer') . '?id=' . $recepcion->id]
+				]
+			];
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+			return redirect()->action('RecepcionsController@index', ['alert' => $alert]);
+		}
+		else
+		{
+			\DB::rollback();
+		}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+	}
+
+	public function printer(Request $request)
+	{
+		dd($request->all());
+	}
+
+	public function destroy(Request $request)
+	{
+		$success = false;
+
+		\DB::beginTransaction();
+		
+		try
+		{
+			$recepcion = Recepcion::find($request->id);
+			$productos = $recepcion->productos();
+			$productos->delete();
+			$recepcion->delete();
+			$success = true;
+		
+		}
+		catch (Exception $e)
+		{
+		
+		}
+		
+		if ($success)
+		{
+			\DB::commit();
+			
+			$alert =
+			[
+				'type' => 'warning',
+				'message' => 'La recepción fué borrada satisfactoriamente :).',
+			];
+
+			return redirect()->action('RecepcionsController@index', ['alert' => $alert]);
+		}
+		else
+		{
+			\DB::rollback();
+		}
+	}
 }
