@@ -12,7 +12,7 @@
 							<div class="row">
 								<div class="form-group col-md-12">
 									<label for="consultas_input_fecha">Fecha</label>
-									<input type="text" name="date" class="form-control" id="consulta_input_fecha" data-provide="datepicker" data-date-format="dd/mm/yyyy">
+									<input type="text" name="date" class="form-control" id="consulta_input_fecha" data-provide="datepicker" data-date-format="dd/mm/yyyy" required>
 								</div>
 							</div>
 						</div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Filesystem\Filesystem;
 use DB;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -113,6 +114,7 @@ class RecepcionsController extends Controller
 
 	public function destroy(Request $request)
 	{
+		dd($files);
 	}
 
 	public function search(Request $request)

@@ -8,7 +8,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a href="#" class="navbar-brand">SICOIME</a>
+            <a href="{{ action('HomeController@index')  }}" class="navbar-brand">SICOIME</a>
           </div>
           <div class="navbar-collapse collapse" id="navbar">
             <ul class="nav navbar-nav">
