@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('content')
+@parent
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-default">
@@ -86,6 +87,7 @@
 @endsection
 
 @section('body')
+	@parent
 	{!! Html::script('vendor/typeahead.js/dist/typeahead.jquery.js') !!}
 	<!-- {!! Html::script('vendor/bootstrap3-typeahead/bootstrap3-typeahead.js') !!} -->
 	{!! Html::script('vendor/typeahead.js/dist/bloodhound.js') !!}
@@ -216,7 +218,7 @@
 		/**
 		 * Borrar producto de la lista
 		 */
-		$(document).on('click', '.btn-xs', function(e){
+		$('#table_productos').on('click', '.btn-xs', function(e){
 			$(this).parents('tr').remove();
 		});
 
@@ -239,11 +241,6 @@
 @endsection
 
 @section('head')
+	@parent
 	{!! Html::style('vendor/typeahead.js-bootstrap3.less/typeaheadjs.css') !!}
-
-	<style>
-		.row_padding_button {
-			padding-bottom: 15px;
-		}
-	</style>
 @endsection

@@ -11,6 +11,7 @@
         <!-- Bootstrap -->
         {!! Html::style('vendor/bootstrap/dist/css/bootstrap.css') !!}
         {!! Html::style('vendor/font-awesome/css/font-awesome.css') !!}
+        {!! Html::style('vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.css') !!}
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -18,22 +19,37 @@
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
 		@yield('head')
-    </head>
-  <body>
-	@include('layouts.header')
-	<div class="container">
-		@yield('content')
-    </div> <!-- /container -->
+                    <style>
+                    .row_padding_button {
+			padding-bottom: 15px;
+                    }
+                </style>
+	</head>
+	<body>
+		@include('layouts.header')
+		<div class="container">
+			@yield('content')
+		</div>
 
-    <footer id="footer" class="footer">
-        <div class="container text-center">
-            <div><i class="fa fa-html5 fa-3x"></i></div>
-        </div>
-    </footer>
-     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    {!! Html::script('vendor/jquery/dist/jquery.js')  !!}
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    {!! Html::script('vendor/bootstrap/dist/js/bootstrap.js') !!}
-    @yield('body')
-    </body>
+		<footer id="footer" class="footer">
+			<div class="container text-center">
+				<div class="row">
+					<div class="col-md-12">
+						<span class="label label-danger"><i class="fa fa-home"></i>
+							@if(Auth::check())
+								@if(Auth::user()->type > 0)
+									{{ Illuminate\Support\Str::upper(Auth::user()->sucursal()->nombre)  }}
+								@endif
+							@endif
+						</span>
+					</div>
+				</div>
+			</div>
+		</footer>
+		{!! Html::script('vendor/jquery/dist/jquery.js')  !!}
+		{!! Html::script('vendor/bootstrap/dist/js/bootstrap.js') !!}
+		{!! Html::script('vendor/bootstrap-validator/dist/validator.js') !!}
+                {!! Html::script('vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.js') !!}
+	@yield('body')
+	</body>
 </html>

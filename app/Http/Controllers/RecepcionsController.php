@@ -114,4 +114,9 @@ class RecepcionsController extends Controller
 	public function destroy(Request $request)
 	{
 	}
+
+	public function search(Request $request)
+	{
+		dd($request->all());
+	}
 }

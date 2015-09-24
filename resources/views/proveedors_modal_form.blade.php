@@ -51,7 +51,3 @@
 		</div>
 	</div>
 </div>
-@section('body')
-	@parent
-	{!! Html::script('vendor/bootstrap-validator/dist/validator.js') !!}
-@endsection

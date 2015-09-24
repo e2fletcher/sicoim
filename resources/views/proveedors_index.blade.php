@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('content')
+@parent
 <div class="row">
 	<div class="col-md-12">
 		<div class="panel panel-default">
@@ -69,6 +70,7 @@
 @endsection
 
 @section('body')
+@parent
 <script>
 	$(document).ready(function(){
 		console.log('> document ready');

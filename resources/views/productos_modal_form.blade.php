@@ -35,13 +35,3 @@
 		</div>
 	</div>
 </div>
-@section('body')
-	@parent
-	{!! Html::script('vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.js') !!}
-	{!! Html::script('vendor/bootstrap-validator/dist/validator.js') !!}
-@endsection
-
-@section('head')
-	@parent
-	{!! Html::style('vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.css') !!}
-@endsection

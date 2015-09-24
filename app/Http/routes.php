@@ -19,12 +19,16 @@ Route::post('auth/register', ['as' => 'auth/register', 'uses' => 'Auth\AuthContr
  * gestionar los tipos de productos
  */
 Route::group(['prefix' => 'tipos'], function() {
-	Route::group(['middleware' => 'auth_type:0'], function(){
-		Route::get('/', 'TiposController@index');
-		Route::get('/search', 'TiposController@search');
-		Route::post('create', 'TiposController@create');
-		Route::post('update', 'TiposController@update');
-		Route::get('destroy', 'TiposController@destroy');
+	Route::group(['middleware' => 'auth'], function(){
+		Route::group(['middleware' => 'auth_type:1'], function(){
+			Route::get('/', 'TiposController@index');
+			Route::post('create', 'TiposController@create');
+			Route::post('update', 'TiposController@update');
+			Route::get('destroy', 'TiposController@destroy');
+		});
+		Route::group(['middleware' => 'auth_type:2'], function(){
+			Route::get('search', 'TiposController@search');
+		});
 	});
 });
 
@@ -47,7 +51,7 @@ Route::group(['prefix' => 'clientes'], function() {
  * gestionar los proveedores
  */
 Route::group(['prefix' => 'proveedors'], function() {
-	Route::group(['middleware' => ['auth', 'auth_type:1']], function(){
+	Route::group(['middleware' => ['auth', 'auth_type:2']], function(){
 		Route::get('/', 'ProveedorsController@index');
 		Route::get('/search', 'ProveedorsController@search');
 		Route::post('create', 'ProveedorsController@create');
@@ -62,7 +66,7 @@ Route::group(['prefix' => 'proveedors'], function() {
  * gestionar los sucursales
  */
 Route::group(['prefix' => 'sucursals'], function() {
-	Route::group(['middleware' => ['auth', 'auth_type:1']], function(){
+	Route::group(['middleware' => ['auth', 'auth_type:2']], function(){
 		Route::get('/', 'SucursalsController@index');
 		Route::post('create', 'SucursalsController@create');
 		Route::post('update', 'SucursalsController@update');
@@ -79,6 +83,7 @@ Route::group(['prefix' => 'recepcions'], function(){
 		Route::any('/', 'RecepcionsController@index');
 		Route::post('process', 'RecepcionsController@process');
 		Route::get('printer', 'RecepcionsController@printer');
+		Route::get('search', 'RecepcionsController@search');
 		Route::get('destroy', 'RecepcionsController@destroy');
 	});
 });
