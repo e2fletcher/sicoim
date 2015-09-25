@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Venta extends Model
 {
-	public function detallesVenta()
+	public function detalles()
 	{
 		return $this->hasMany('\App\Detallesventa');
 	}

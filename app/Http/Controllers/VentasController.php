@@ -97,12 +97,9 @@ class VentasController extends Controller
 
 	public function printer(Request $request)
 	{
-		dd($request->all());
-	}
-
-	public function destroy(Request $request)
-	{
-		dd($files);
+		$r = Venta::find($request->id);
+		if($r)
+			return view('ventas.printer', ['venta' => $r]);
 	}
 
 	public function search(Request $request)

@@ -117,12 +117,9 @@ class TransferenciasController extends Controller
 
 	public function printer(Request $request)
 	{
-		dd($request->all());
-	}
-
-	public function destroy(Request $request)
-	{
-		dd($files);
+		$r = Transferencia::find($request->id);
+		if($r)
+			return view('transferencias.printer', ['transferencia' => $r]);
 	}
 
 	public function search(Request $request)

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Detallesventa extends Model
 {
-	public function venta ()
+	public function venta()
 	{
 		return $this->belongsTo('\App\Venta');
 	}

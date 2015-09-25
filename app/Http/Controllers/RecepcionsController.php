@@ -111,7 +111,7 @@ class RecepcionsController extends Controller
 	{
 		$r = Recepcion::find($request->id);
 		if($r)
-			return view('recepcions.print', ['recepcion' => $r]);
+			return view('recepcions.printer', ['recepcion' => $r]);
 	}
 
 	public function search(Request $request)

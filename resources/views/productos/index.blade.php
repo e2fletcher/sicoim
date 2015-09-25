@@ -50,6 +50,7 @@
 @endsection
 
 @section('body')
+	@parent
 	<script>
 		$(document).ready(function(){
 			$('#button-print').click(function(){
