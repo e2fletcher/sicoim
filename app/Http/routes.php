@@ -42,6 +42,7 @@ Route::group(['prefix' => 'clientes'], function() {
 		Route::post('create', 'ClientesController@create');
 		Route::post('update', 'ClientesController@update');
 		Route::get('destroy', 'ClientesController@destroy');
+		Route::get('search', 'ClientesController@search');
 	});
 });
 
@@ -88,3 +89,25 @@ Route::group(['prefix' => 'recepcions'], function(){
 	});
 });
 
+
+/**
+ * Modulo de productos
+ */
+Route::group(['prefix' => 'productos'], function(){
+	Route::group(['middleware' => 'auth_type:2'], function(){
+		Route::get('search', 'ProductosController@search');
+	});
+});
+
+/**
+ * Modulo de ventas
+ */
+Route::group(['prefix' => 'ventas'], function(){
+	Route::group(['middleware' => 'auth_type:2'], function(){
+		Route::any('/', 'VentasController@index');
+		Route::post('process', 'VentasController@process');
+		Route::get('printer', 'VentasController@printer');
+		Route::get('search', 'VentasController@search');
+		Route::get('destroy', 'VentasController@destroy');
+	});
+});

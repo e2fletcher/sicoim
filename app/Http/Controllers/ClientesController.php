@@ -89,4 +89,16 @@ class ClientesController extends Controller
 		$cliente->delete();
 		return $request->id;
 	}
+
+	public function search(Request $request)
+	{
+		if($request->q)
+		{
+			$clientes = DB::table('clientes')
+				->where('ident', 'like', '%' . $request->q . '%')
+				->orWhere('nombre', 'like', '%' . $request->q . '%');
+			
+			return response()->json($clientes->get());
+		}
+	}
 }

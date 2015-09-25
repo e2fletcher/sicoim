@@ -83,7 +83,7 @@
 		</div>
 	</div>
 </div>
-@include('productos_modal_form')
+@include('recepcions.producto_modal_form')
 @endsection
 
 @section('body')
@@ -93,7 +93,7 @@
 	{!! Html::script('vendor/typeahead.js/dist/bloodhound.js') !!}
 <script>
 
-	$(document).ready(function(){
+		$(document).ready(function(){
 		/**
 		 * Busqueda de proveedores
 		 */
@@ -172,8 +172,8 @@
 			}
 		})
 			.on('typeahead:selected', function(e, tipo) {
-				$('#productos_modal_form').modal("show");
-				$('#productos_modal_form_title').text(tipo.codigo.toUpperCase());
+				$('#producto_modal_form').modal("show");
+				$('#producto_modal_form_title').text(tipo.codigo.toUpperCase());
 				$('#producto_input_tipo_id').val(tipo.id);
 				$('#producto_input_tipo_codigo').val(tipo.codigo);
 				$('#producto_input_tipo_nombre').val(tipo.nombre);
@@ -190,7 +190,7 @@
 			e.preventDefault();
 			if ($('#producto_input_cantidad').val())
 			{
-				$('#productos_modal_form').modal("hide");
+				$('#producto_modal_form').modal("hide");
 				$('.typeahead_tipos').val('').focus();
 				/**
 				 * Agregar producto a la lista de recepcion

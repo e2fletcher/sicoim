@@ -28,7 +28,7 @@
 					<i class="fa fa-shopping-cart"></i> Ventas<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu">
-					<li><a href="{!! action('RecepcionsController@index') !!}"><i class="fa fa-shopping-cart"></i> Procesar<span class="sr-only"></span></a></li>
+					<li><a href="{!! action('VentasController@index') !!}"><i class="fa fa-shopping-cart"></i> Procesar<span class="sr-only"></span></a></li>
 					<li><a href="{!! action('ClientesController@index') !!}"><i class="fa fa-users"></i> Clientes<span class="sr-only"></span></a></li>
 					<li id="navbar_button_consultar" data-action="ventas"><a href="#"><i class="fa fa-search"></i> Consultar<span class="sr-only"></span></a></li>
 				</ul>
@@ -81,6 +81,9 @@
 			switch ($(this).data("action")) {
 				case 'recepcions':
 					$('#consulta_modal_form').find('form').attr('action', '{!! action('RecepcionsController@search') !!}');
+					break;
+				case 'ventas':
+					$('#consulta_modal_form').find('form').attr('action', '{!! action('VentasController@search') !!}');
 					break;
 				default:
 					break;
