@@ -13,11 +13,11 @@ class CreateDetallestransferenciasTable extends Migration
 				$table->engine = 'InnoDB';
 				$table->increments('id');
 				$table->integer('transferencia_id')->unsigned();
-				$table->integer('tipo_id')->unsigned();
+				$table->integer('producto_id')->unsigned();
 				$table->integer('cantidad');
 				$table->float('precio');
 				$table->foreign('transferencia_id')->references('id')->on('transferencias');
-				$table->foreign('tipo_id')->references('id')->on('tipos');
+				$table->foreign('producto_id')->references('id')->on('productos');
 			});
 		}
 	}

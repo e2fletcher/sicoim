@@ -31,10 +31,10 @@ class TiposController extends Controller
 		
 		if($request->alert)
 		{
-			return view('tipos_index', ['tipos' => $tipos, 'alert' => $request->alert]);
+			return view('tipos.index', ['tipos' => $tipos, 'alert' => $request->alert]);
 		}
 
-		return view('tipos_index', ['tipos' => $tipos]);
+		return view('tipos.index', ['tipos' => $tipos]);
 	}
 
 	public function create(Request $request)

@@ -1,9 +1,4 @@
-body {
-    padding-top: 70px;
+.row_padding_button {
+	padding-bottom: 15px;
 }
 
-.datepicker {
-    visibility: visible;
-    opacity: 1;
-    width: auto;
-}

@@ -8,10 +8,10 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <link rel="icon" href="">
-        <!-- Bootstrap -->
         {!! Html::style('vendor/bootstrap/dist/css/bootstrap.css') !!}
         {!! Html::style('vendor/font-awesome/css/font-awesome.css') !!}
         {!! Html::style('vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.css') !!}
+        {!! Html::style('css/style.css') !!}
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -19,19 +19,16 @@
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
 		@yield('head')
-                    <style>
-                    .row_padding_button {
-			padding-bottom: 15px;
-                    }
-                </style>
 	</head>
 	<body>
-		@include('layouts.header')
+		<div class="hidden-print">
+			@include('layouts.header')
+		</div>
 		<div class="container">
 			@yield('content')
 		</div>
 
-		<footer id="footer" class="footer">
+		<footer id="footer" class="footer hidden-print">
 			<div class="container text-center">
 				<div class="row">
 					<div class="col-md-12">
@@ -49,7 +46,7 @@
 		{!! Html::script('vendor/jquery/dist/jquery.js')  !!}
 		{!! Html::script('vendor/bootstrap/dist/js/bootstrap.js') !!}
 		{!! Html::script('vendor/bootstrap-validator/dist/validator.js') !!}
-                {!! Html::script('vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.js') !!}
-	@yield('body')
+		{!! Html::script('vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.js') !!}
+		@yield('body')
 	</body>
 </html>

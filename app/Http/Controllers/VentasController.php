@@ -7,7 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use DB;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Ventas;
+use App\Venta;
 use App\Detallesventa;
 use App\Producto;
 
@@ -24,15 +24,14 @@ class VentasController extends Controller
 	
 		if($request->alert)
 		{
-			return view('ventas_index', ['newId' => $newId, 'alert' => $request->alert]);
+			return view('ventas.index', ['newId' => $newId, 'alert' => $request->alert]);
 		}
 		
-		return view('ventas_index', ['newId' => $newId]);
+		return view('ventas.index', ['newId' => $newId]);
 	}
 
 	public function process(Request $request)
 	{
-		dd($request->all());
 		$success = false;
 
 		\DB::beginTransaction();
@@ -41,41 +40,29 @@ class VentasController extends Controller
 		{
 			$venta = new Venta;
 			$venta->id = $request->venta_id;
-			$venta->proveedor_id = $request->proveedor_id;
+			$venta->cliente_id = $request->cliente_id;
 			$venta->sucursal_id = \Auth::user()->sucursal()->id;
 			$venta->user_id = \Auth::user()->id;
 			$venta->save();
 
 			foreach ($request->productos as $producto)
 			{
-				$detalles = new Detallesventa;
-				$detalles->venta_id = $request->venta_id;
-				$detalles->tipo_id = $producto["tipo_id"];
-				$detalles->cantidad = $producto["cantidad"];
-				$detalles->precio = $producto["tipo_precio"];
-				$detalles->caducidad = $producto["caducidad"];
-				$detalles->save();
+				$detalleVenta = new Detallesventa;
+				$detalleVenta->venta_id = $request->venta_id;
+				$detalleVenta->producto_id = $producto["id"];
+				$detalleVenta->cantidad = $producto["cantidad"];
+				$detalleVenta->precio = $producto["precio"];
+				$detalleVenta->save();
 
-				$query = DB::table('productos')
-					->where('sucursal_id', \Auth::user()->sucursal()->id)
-					->where('tipo_id', $producto["tipo_id"])
-					->first();
-
-				if ($query) {
-					$exist = Producto::find($query->id);
-					$exist->stock += $producto["cantidad"];
-					$exist->precio = $producto["tipo_precio"];
-					$exist->save();
-				}
-				else
+				$p = Producto::find($producto["id"]);
+				if(!(($p->stock - $producto["cantidad"]) >= 0))
 				{
-					$new = new Producto;
-					$new->tipo_id = $producto["tipo_id"];
-					$new->sucursal_id = \Auth::user()->sucursal()->id;
-					$new->precio = $producto["tipo_precio"];
-					$new->stock = $producto["cantidad"];
-					$new->save();
+					$success = false;
+					break;
 				}
+			
+				$p->stock -= $producto["cantidad"];
+				$p->save();
 			}
 		
 			$success = true;
@@ -93,7 +80,7 @@ class VentasController extends Controller
 			$alert =
 			[
 				'type' => 'success',
-				'message' => 'La recepción nº ' . $venta->id . ' fué generada satisfactoriamente :). ',
+				'message' => 'La venta nº ' . $venta->id . ' fué generada satisfactoriamente :). ',
 				'actions' => [
 					['name' => 'Imprimir', 'value' => action('VentasController@printer') . '?id=' . $venta->id],
 				]

@@ -66,7 +66,7 @@
 	</div>
 </div>
 @include('layouts.modal_alert')
-@include('proveedors_modal_form')
+@include('proveedors.modal_form')
 @endsection
 
 @section('body')

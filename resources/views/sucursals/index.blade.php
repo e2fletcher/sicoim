@@ -63,7 +63,7 @@
 	</div>
 </div>
 @include('layouts.modal_alert')
-@include('sucursals_modal_form')
+@include('sucursals.modal_form')
 @endsection
 
 @section('body')

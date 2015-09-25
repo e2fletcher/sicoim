@@ -5,7 +5,7 @@
 	<div class="col-md-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-					<span class="label label-default">VENTA Nº DE CONTROL:</span> 
+					<span class="label label-default">TRANSFERENCIA Nº DE CONTROL:</span> 
 					<span class="label label-danger">{{ $newId  }}</span>
 			</div>
 			<div class="panel-body">
@@ -23,8 +23,8 @@
 								<div class="form-group col-md-5">
 									<label class="sr-only" for=""></label>
 									<div class="input-group">
-										<div class="input-group-addon"><i class="fa fa-users"></i> Cliente</div>
-										<input type="text" class="typeahead_clientes form-control" data-provide="typeahead">
+										<div class="input-group-addon"><i class="fa fa-home"></i> Sucursal</div>
+										<input type="text" class="typeahead_sucursals form-control" data-provide="typeahead">
 										<div class="input-group-addon"><i class="fa fa-search"></i></div>
 									</div>
 								</div>
@@ -32,7 +32,7 @@
 									<label class="sr-only" for=""></label>
 									<div class="input-group">
 										<div class="input-group-addon"><i class="fa fa-bookmark-o"></i></div>
-										<input type="text" class="form-control" id="cliente_nombre" disabled>
+										<input type="text" class="form-control" id="sucursal_nombre" disabled>
 									</div>
 								</div>
 							</div>
@@ -41,7 +41,7 @@
 									<label class="sr-only" for=""></label>
 									<div class="input-group">
 										<div class="input-group-addon"><i class="fa fa-map-marker"></i></div>
-										<input type="text" class="form-control" id="cliente_direccion" disabled>
+										<input type="text" class="form-control" id="sucursal_direccion" disabled>
 									</div>
 								</div>
 							</div>
@@ -60,10 +60,10 @@
 								</div>
 							</div>
 						</div>
-						<form method="POST" id="venta_form" role="form" action="{!! action('VentasController@process') !!}">
+						<form method="POST" id="transferencia_form" role="form" action="{!! action('TransferenciasController@process') !!}">
 							<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
-							<input type="hidden" name="venta_id" value="{{ $newId }}" />
-							<input type="hidden" id="cliente_id" name="cliente_id"/>
+							<input type="hidden" name="transferencia_id" value="{{ $newId }}" />
+							<input type="hidden" id="sucursal_id" name="sucursal_id"/>
 							<div class="row">
 								<div class="col-md-12">
 									<table id="table_productos" class="table table-hover">
@@ -72,7 +72,7 @@
 									</table>
 									<div class="row row_padding_button">
 										<div class="col-md-12">
-											<p><h4><span class="label label-warning">TOTAL: <strong class="venta_total">00.00</strong></span></h4></p>
+											<p><h4><span class="label label-warning">TOTAL: <strong class="transferencia_total">00.00</strong></span></h4></p>
 										</div>
 									</div>
 								</div>
@@ -89,7 +89,7 @@
 		</div>
 	</div>
 </div>
-@include('ventas.producto_modal_form')
+@include('transferencias.producto_modal_form')
 @endsection
 
 @section('body')
@@ -101,36 +101,35 @@
 
 	$(document).ready(function(){
 		/**
-		 * Busqueda de clientees
+		 * Busqueda de sucursales
 		 */
-		var clientes = new Bloodhound({
+		var sucursals = new Bloodhound({
 			datumTokenizer: function (datum) {
 				return Bloodhound.tokenizers.whitespace(datum.ident);
 			},
 			queryTokenizer: Bloodhound.tokenizers.whitespace,
 			remote: {
-				url: '{!! action('ClientesController@search') !!}?q=%QUERY',
+				url: '{!! action('SucursalsController@search') !!}?q=%QUERY',
 				wildcard: '%QUERY'
 			}
 		});
 
-		clientes.initialize();
+		sucursals.initialize();
 
-		$('.typeahead_clientes').typeahead(null, {
+		$('.typeahead_sucursals').typeahead(null, {
 			displayKey: 'ident',
-			source: clientes.ttAdapter(),
+			source: sucursals.ttAdapter(),
 			templates: {
-				suggestion: function(cliente){
-					return '<p><strong>' + cliente.ident.toUpperCase() + '</strong> - ' + cliente.nombre.toUpperCase() + '</p>';
+				suggestion: function(sucursal){
+					return '<p><strong>' + sucursal.ident.toUpperCase() + '</strong> - ' + sucursal.nombre.toUpperCase() + '</p>';
 				}
 			}
 		})
-			.on('typeahead:selected', function(e, cliente) {
+			.on('typeahead:selected', function(e, sucursal) {
 				$('button#button_process').removeAttr('disabled');
-				$('input#cliente_id').val(cliente.id);
-				$('input#cliente_nombre').val(cliente.nombre.toUpperCase());
-				$('input#cliente_direccion').val(cliente.direccion.toUpperCase());	
-				console.log(cliente);
+				$('input#sucursal_id').val(sucursal.id);
+				$('input#sucursal_nombre').val(sucursal.nombre.toUpperCase());
+				$('input#sucursal_direccion').val(sucursal.direccion.toUpperCase());	
 		});
 
 		/**
@@ -213,7 +212,7 @@
 				$('#producto_modal_form').modal("hide");
 				$('.typeahead_productos').val('').focus();
 				/**
-				 * Agregar producto a la lista de venta
+				 * Agregar producto a la lista de transferencia
 				 */
 				var row = $('#table_productos > tbody tr').length;
 				if(row < 1)
@@ -239,7 +238,7 @@
 					'<td>' + nombre.toUpperCase() + '</td>',
 					'<td>' + precio + '</td>',
 					'<td><span class="label label-warning text-right producto_cantidad">' + cantidad + '</span></td>',
-					'<td><span class="label label-warning text-right venta_subtotales">' + parseFloat(cantidad * precio) + '</span></td>',
+					'<td><span class="label label-warning text-right transferencia_subtotales">' + parseFloat(cantidad * precio) + '</span></td>',
 					'<td><button id="button_delete" class="btn btn-default btn-xs" type="button"><i class="fa fa-trash"></i></button></td>',
 				'</tr>'
 				];
@@ -262,27 +261,32 @@
 		});
 
 		/**
-		 * Enviar venta
+		 * Enviar transferencia
 		 */
-		$("#venta_form").submit(function(e){
+		$("#transferencia_form").submit(function(e){
 			var row = $('#table_productos > tbody tr').length;
 			if(row > 0)
 				this.submit();
 			else
 				e.preventDefault();
 		});
-
-
+		
+		/**
+		 * Focus producto_input_cantidad
+		 */
+		$("#producto_modal_form").on('show.bs.modal', function(e){
+			$('#producto_input_cantidad').val('').focus();
+		});
 	});
 
 	function updateTotal()
 	{
-		$('.venta_total').empty();
+		$('.transferencia_total').empty();
 		var total = 0;
-		$('.venta_subtotales').each(function(index, sub){
+		$('.transferencia_subtotales').each(function(index, sub){
 			total += parseFloat($(sub).html());
 		});
-		$('.venta_total').html(total);
+		$('.transferencia_total').html(total);
 	}
 
 </script>

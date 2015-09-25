@@ -1,5 +1,5 @@
 @if(Auth::check())
-<nav class="navbar navbar-default" id="navbar_master">
+<nav class="navbar navbar-default hidden-print" id="navbar_master">
         <div class="container-fluid">
           <div class="navbar-header">
             <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
@@ -38,11 +38,11 @@
 					<i class="fa fa-send"></i> Transferencias<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu">
-					<li><a href="{!! action('RecepcionsController@index') !!}"><i class="fa fa-send"></i> Procesar<span class="sr-only"></span></a></li>
+					<li><a href="{!! action('TransferenciasController@index') !!}"><i class="fa fa-send"></i> Procesar<span class="sr-only"></span></a></li>
 					<li id="navbar_button_consultar" data-action="transferencias"><a href="#"><i class="fa fa-search"></i> Consultar<span class="sr-only"></span></a></li>
 				</ul>
 			</li>
-			<li><a href="{!! action('ProveedorsController@index') !!}"><i class="fa fa-search"></i> Inventario<span class="sr-only"></span></a></li>
+			<li><a href="{!! action('ProductosController@index') !!}"><i class="fa fa-search"></i> Inventario<span class="sr-only"></span></a></li>
 			@endif
 			@if(Auth::user()->type < 1)
 				<li><a href="{!! action('TiposController@index') !!}"><i class="fa fa-barcode"></i> Listas de productos<span class="sr-only"></span></a></li>
@@ -69,7 +69,7 @@
       </nav>
 @section('body')
 	@parent
-	@include('layouts.consulta_modal_form')
+	@include('consulta_modal_form')
 	<script>
 	$(document).ready(function(){
 		$("#navbar_master").on('click', '#navbar_button_consultar', function(e){

@@ -28,13 +28,13 @@ class ProveedorsController extends Controller
 		
 		if($request->alert)
 		{
-			return view('proveedors_index', ['proveedors' => $proveedors, 'alert' => $request->alert]);
+			return view('proveedors.index', ['proveedors' => $proveedors, 'alert' => $request->alert]);
 		}
 
 		if($request->ajax())
 			return response()->json($proveedors);
 
-		return view('proveedors_index', ['proveedors' => $proveedors]);
+		return view('proveedors.index', ['proveedors' => $proveedors]);
 	}
 
 	public function create(Request $request)

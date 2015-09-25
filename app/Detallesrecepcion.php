@@ -11,5 +11,10 @@ class Detallesrecepcion extends Model
 		return $this->belongsTo('\App\Recepcion');
 	}
 
+	public function tipo()
+	{
+		return $this->belongsTo('\App\Tipo');
+	}
+
 	public $timestamps = false;
 }

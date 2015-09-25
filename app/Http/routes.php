@@ -72,6 +72,7 @@ Route::group(['prefix' => 'sucursals'], function() {
 		Route::post('create', 'SucursalsController@create');
 		Route::post('update', 'SucursalsController@update');
 		Route::get('destroy', 'SucursalsController@destroy');
+		Route::get('search', 'SucursalsController@search');
 	});
 	Route::get('maps', 'SucursalsController@maps');
 });
@@ -109,5 +110,31 @@ Route::group(['prefix' => 'ventas'], function(){
 		Route::get('printer', 'VentasController@printer');
 		Route::get('search', 'VentasController@search');
 		Route::get('destroy', 'VentasController@destroy');
+	});
+});
+
+/**
+ * Modulo de transferencias
+ */
+Route::group(['prefix' => 'transferencias'], function(){
+	Route::group(['middleware' => 'auth_type:2'], function(){
+		Route::any('/', 'TransferenciasController@index');
+		Route::post('process', 'TransferenciasController@process');
+		Route::get('printer', 'TransferenciasController@printer');
+		Route::get('search', 'TransferenciasController@search');
+		Route::get('destroy', 'TransferenciasController@destroy');
+	});
+});
+
+
+/**
+ * Modulos encargados de 
+ * gestionar los productos
+ */
+Route::group(['prefix' => 'productos'], function() {
+	Route::group(['middleware' => 'auth'], function(){
+		Route::group(['middleware' => 'auth_type:2'], function(){
+			Route::get('/', 'ProductosController@index');
+		});
 	});
 });

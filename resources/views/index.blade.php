@@ -4,7 +4,7 @@
 	@parent
 <div class="row hidden-xs row_padding_button">
 	<div class="col-lg-12">
-		@include('layouts.carousel')
+		@include('carousel')
 	</div>
 </div>
 <div class="row">
@@ -12,7 +12,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Misión</div>
 			<div class="panel-body">
-				@include('layouts.mision')
+				@include('mision')
 			</div>
 		</div>
 	</div>
@@ -20,7 +20,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Visión</div>
 			<div class="panel-body">
-				@include('layouts.vision')
+				@include('vision')
 			</div>
 		</div>
 	</div>

@@ -37,10 +37,10 @@ class ClientesController extends Controller
 		
 		if($request->alert)
 		{
-			return view('clientes_index', ['clientes' => $clientes, 'alert' => $request->alert]);
+			return view('clientes.index', ['clientes' => $clientes, 'alert' => $request->alert]);
 		}
 
-		return view('clientes_index', ['clientes' => $clientes]);
+		return view('clientes.index', ['clientes' => $clientes]);
 	}
 
 	public function create(Request $request)

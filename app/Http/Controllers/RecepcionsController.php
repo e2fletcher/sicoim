@@ -24,10 +24,10 @@ class RecepcionsController extends Controller
 	
 		if($request->alert)
 		{
-			return view('recepcions_index', ['newId' => $newId, 'alert' => $request->alert]);
+			return view('recepcions.index', ['newId' => $newId, 'alert' => $request->alert]);
 		}
 		
-		return view('recepcions_index', ['newId' => $newId]);
+		return view('recepcions.index', ['newId' => $newId]);
 	}
 
 	public function process(Request $request)
@@ -109,12 +109,9 @@ class RecepcionsController extends Controller
 
 	public function printer(Request $request)
 	{
-		dd($request->all());
-	}
-
-	public function destroy(Request $request)
-	{
-		dd($files);
+		$r = Recepcion::find($request->id);
+		if($r)
+			return view('recepcions.print', ['recepcion' => $r]);
 	}
 
 	public function search(Request $request)
