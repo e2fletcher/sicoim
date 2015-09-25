@@ -111,21 +111,8 @@
 			remote: {
 				url: '{!! action('ClientesController@search') !!}?q=%QUERY',
 				wildcard: '%QUERY'
-				// Para escudriñar en la data del json
-				/*filter: function (clientes) {
-					console.log(clientes.data);
-					return $.map(clientes, function (cliente) {
-						return {
-							id: cliente.id,
-							ident: cliente.ident,
-							nombre: cliente.nombre,
-							tlf: cliente.tlf,
-							direccion: cliente.direccion
-						};
-					});
-				}*/
 			}
-			});
+		});
 
 		clientes.initialize();
 
@@ -156,7 +143,26 @@
 			queryTokenizer: Bloodhound.tokenizers.whitespace,
 			remote: {
 				url: '{!! action('ProductosController@search') !!}?q=%QUERY',
-				wildcard: '%QUERY'
+				wildcard: '%QUERY',
+				filter: function (productos) {
+					return $.map(productos, function (producto) {
+						$('.producto_codigo').each(function(i, e){
+							if($(e).html().toLowerCase() == producto.codigo)
+							{
+								var cantidad = $($('.producto_cantidad')[i]).html();
+								producto.stock = producto.stock - cantidad;
+							}	
+						
+						});
+						return {
+							id: producto.id,
+							codigo: producto.codigo,
+							nombre: producto.nombre,
+							precio: producto.precio,
+							stock: producto.stock
+						};
+					});
+				}
 			}
 		});
 
@@ -232,7 +238,7 @@
 					'<td><span class="label label-default producto_codigo">' + codigo.toUpperCase() + '</span></td>',
 					'<td>' + nombre.toUpperCase() + '</td>',
 					'<td>' + precio + '</td>',
-					'<td><span class="label label-warning text-right">' + cantidad + '</span></td>',
+					'<td><span class="label label-warning text-right producto_cantidad">' + cantidad + '</span></td>',
 					'<td><span class="label label-warning text-right venta_subtotales">' + parseFloat(cantidad * precio) + '</span></td>',
 					'<td><button id="button_delete" class="btn btn-default btn-xs" type="button"><i class="fa fa-trash"></i></button></td>',
 				'</tr>'
