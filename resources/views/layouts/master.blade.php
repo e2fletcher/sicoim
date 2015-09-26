@@ -35,7 +35,7 @@
 						<span class="label label-danger"><i class="fa fa-home"></i>
 							@if(Auth::check())
 								@if(Auth::user()->type > 0)
-									{{ Illuminate\Support\Str::upper(Auth::user()->sucursal()->nombre)  }}
+									{{ Illuminate\Support\Str::upper(Auth::user()->sucursal->nombre)  }}
 								@endif
 							@endif
 						</span>

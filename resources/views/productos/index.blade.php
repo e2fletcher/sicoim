@@ -9,7 +9,7 @@
 				<i class="fa fa-barcode"></i>
 				 INVENTARIO 
 				<span class="label label-default text-uppercase">
-					{{ Str::upper(Auth::user()->sucursal()->nombre) }}
+					{{ Str::upper(Auth::user()->sucursal->nombre) }}
 				</span>
 			</div>
 			<div class="panel-body">

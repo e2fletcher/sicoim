@@ -10,15 +10,16 @@ class CreateUsersTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('users', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name')->unique();
-            $table->string('email')->unique();
-            $table->string('tlf')->nullable();
-            $table->string('password', 60);
+	public function up()
+	{
+		Schema::create('users', function (Blueprint $table) {
+			$table->increments('id');
+			$table->string('name')->unique();
+			$table->string('email')->unique();
+			$table->string('tlf')->nullable();
+			$table->string('password', 60);
 			$table->integer('type');
+			$table->integer('sucursal_id')->unique()->nullable();
 			$table->rememberToken();
         });
     }
