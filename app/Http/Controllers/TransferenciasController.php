@@ -40,7 +40,7 @@ class TransferenciasController extends Controller
 		{
 			$transferencia = new Transferencia;
 			$transferencia->id = $request->transferencia_id;
-			$transferencia->sucursal_id = \Auth::user()->sucursal()->id;
+			$transferencia->sucursal_id = \Auth::user()->sucursal->id;
 			$transferencia->sucursal_hasta_id = $request->sucursal_id;
 			$transferencia->user_id = \Auth::user()->id;
 			$transferencia->save();

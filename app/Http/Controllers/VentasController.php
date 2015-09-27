@@ -41,7 +41,7 @@ class VentasController extends Controller
 			$venta = new Venta;
 			$venta->id = $request->venta_id;
 			$venta->cliente_id = $request->cliente_id;
-			$venta->sucursal_id = \Auth::user()->sucursal()->id;
+			$venta->sucursal_id = \Auth::user()->sucursal->id;
 			$venta->user_id = \Auth::user()->id;
 			$venta->save();
 

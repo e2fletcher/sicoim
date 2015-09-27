@@ -41,7 +41,7 @@ class RecepcionsController extends Controller
 			$recepcion = new Recepcion;
 			$recepcion->id = $request->recepcion_id;
 			$recepcion->proveedor_id = $request->proveedor_id;
-			$recepcion->sucursal_id = \Auth::user()->sucursal()->id;
+			$recepcion->sucursal_id = \Auth::user()->sucursal->id;
 			$recepcion->user_id = \Auth::user()->id;
 			$recepcion->save();
 
@@ -56,7 +56,7 @@ class RecepcionsController extends Controller
 				$detalles->save();
 
 				$query = DB::table('productos')
-					->where('sucursal_id', \Auth::user()->sucursal()->id)
+					->where('sucursal_id', \Auth::user()->sucursal->id)
 					->where('tipo_id', $producto["tipo_id"])
 					->first();
 
@@ -70,7 +70,7 @@ class RecepcionsController extends Controller
 				{
 					$new = new Producto;
 					$new->tipo_id = $producto["tipo_id"];
-					$new->sucursal_id = \Auth::user()->sucursal()->id;
+					$new->sucursal_id = \Auth::user()->sucursal->id;
 					$new->precio = $producto["tipo_precio"];
 					$new->stock = $producto["cantidad"];
 					$new->save();

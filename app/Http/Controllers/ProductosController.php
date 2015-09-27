@@ -19,7 +19,7 @@ class ProductosController extends Controller
 			$result = DB::table('tipos')
 				->join('productos', function($join){
 					$join->on('productos.tipo_id', '=', 'tipos.id')
-						->where('productos.sucursal_id', '=', Auth::user()->sucursal()->id)
+						->where('productos.sucursal_id', '=', Auth::user()->sucursal->id)
 						->where('productos.stock', '>', 0);
 				})
 				->where('tipos.codigo', 'like', '%' . $request->q . '%')

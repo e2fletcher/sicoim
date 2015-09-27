@@ -152,7 +152,7 @@ class SucursalsController extends Controller
 			 * Error undefined variable request
 			 *
 			$sucursals = DB::table('sucursals')
-				->where('id', '<>', \Auth::user()->sucursal()->id)
+				->where('id', '<>', \Auth::user()->sucursal->id)
 				->where(function($q){
 					$q->where('ident', 'like', '%' . $request->q . '%')
 						->orWhere('nombre', 'like', '%' . $request->q . '%');
@@ -160,7 +160,7 @@ class SucursalsController extends Controller
 			 */
 			
 			$sucursals = DB::table('sucursals')
-				->where('id', '<>', \Auth::user()->sucursal()->id)
+				->where('id', '<>', \Auth::user()->sucursal->id)
 				->where('nombre', 'like', '%' . $request->q . '%');
 
 			return response()->json($sucursals->get());
