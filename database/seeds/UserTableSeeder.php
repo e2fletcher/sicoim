@@ -25,15 +25,6 @@ class UserTableSeeder extends Seeder
 		$s->ident = '001';
 		$s->save();
 
-		\DB::table('proveedors')->delete();
-		$s = new Proveedor;
-		$s->nombre = 'Juan Carlos Ruiz';
-		$s->tlf = '0271-43526222';
-		$s->direccion = 'Sabana de Mendoza Urb. Inavi Primer Estacionamiento Local 1';
-		$s->ident = 'V-10229383';
-		$s->save();
-
-
 		\DB::table('tipos')->delete();
 		$s = new Tipo;
 		$s->codigo = 'harin-001';
