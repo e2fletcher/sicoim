@@ -45,9 +45,9 @@
 									data-tlf="{{ $proveedor->tlf }}"
 									data-email="{{ $proveedor->email }}">
 									
-									<td class="col-md-2 text-uppercase">{{ $proveedor->ident }}</td>
-									<td class="col-md-4 text-uppercase">{{ $proveedor->nombre }}</td>
-									<td class="col-md-4 text-uppercase hidden-xs">{{ $proveedor->direccion }}</td>
+									<td class="col-md-2">{{ $proveedor->ident }}</td>
+									<td class="col-md-4">{{ strtoupper($proveedor->nombre) }}</td>
+									<td class="col-md-4 hidden-xs">{{ $proveedor->direccion }}</td>
 									<td class="col-md-2 text-right">
 										<div class="btn-group" role="group" aria-label="...">
 											<button class="btn btn-default" type="button" data-name="button_edit" data-toggle="modal" data-target="#modal_form"><i class="fa fa-edit"></i></button>

@@ -39,9 +39,9 @@ class UserTableSeeder extends Seeder
 
 		\DB::table('users')->delete();
 		$admin = new User;
-		$admin->email = 'admin@sicoime.com';
-		$admin->name = 'administrador';
-		$admin->password = \Hash::make('admin');
+		$admin->email = 'e2fletcher@gmail.com';
+		$admin->name = 'Ender Fletcher';
+		$admin->password = \Hash::make('1234');
 		$admin->type = 0;
 		$admin->save();
 		$admin->sucursals()->sync([$s->id]);
