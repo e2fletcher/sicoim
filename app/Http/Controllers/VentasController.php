@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Venta;
 use App\Detallesventa;
 use App\Producto;
+use Carbon\Carbon;
 
 class VentasController extends Controller
 {
@@ -103,7 +104,32 @@ class VentasController extends Controller
 	}
 
 	public function search(Request $request)
-	{
-		dd($request->all());
-	}
+        {
+            $date = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
+            $query = DB::table('ventas')
+            ->whereDate('created_at', '=' , $date)
+            ->where('sucursal_id', \Auth::user()->sucursal()->id);
+        
+            if($query->count() >= 1)
+            {
+                $ve = $query->get();
+
+                foreach($ve as $v)
+                {
+                    $ventas[] = Venta::find($v->id);
+                }
+
+                return view('ventas.report', ['ventas' => $ventas]);
+            }
+        else
+        {
+            $alert =
+                [
+		    'type' => 'danger',
+		    'message' => 'No existen ventas para esta fecha ;( '
+		];
+
+	    return redirect()->action('VentasController@index', ['alert' => $alert]);
+        }
+    }
 }

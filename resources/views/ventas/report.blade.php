@@ -5,27 +5,27 @@
     <div class="col-md-12">
         <div class="panel panel-default">
 	    <div class="panel-heading">
-		<span class="label label-default">Reporte de recepciones</span> 
+		<span class="label label-default">Reporte de ventas</span> 
 	    </div>
             <div class="panel-body">
                 <table class="table table-over">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Proveedor</th>
+                            <th>Cliente</th>
                             <th>Usuario del Sistema</th>
                             <th>Fecha</th>
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($recepcions as $r)
+                    @foreach($ventas as $v)
                         <tr>
-                            <td><span class="label label-default">{{ $r->id }}</span></td>
-                            <td>{{ Str::upper($r->proveedor->nombre) }}</td>
-                            <td>{{ Str::upper($r->user->name) }} ({{ Str::lower($r->user->email) }})</td>
-                            <td>{{ $r->created_at }}</td>
+                            <td><span class="label label-default">{{ $v->id }}</span></td>
+                            <td>{{ Str::upper($v->cliente->nombre) }}</td>
+                            <td>{{ Str::upper($v->user->name) }} ({{ Str::lower($v->user->email) }})</td>
+                            <td>{{ $v->created_at }}</td>
                             <td>
-                                <a class="btn btn-sx btn-default" href="{{ action('RecepcionsController@printer') . '?id=' . $r->id  }}" role="button">Imprimir</a>
+                                <a class="btn btn-sx btn-default" href="{{ action('VentasController@printer') . '?id=' . $v->id  }}" role="button">Imprimir</a>
                             </td>
                         </tr> 
                     @endforeach

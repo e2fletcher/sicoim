@@ -117,10 +117,30 @@ class RecepcionsController extends Controller
     public function search(Request $request)
     {
         $date = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
-        $recepciones = DB::table('recepcions')
+        $query = DB::table('recepcions')
             ->whereDate('created_at', '=' , $date)
             ->where('sucursal_id', \Auth::user()->sucursal()->id);
+        
+        if($query->count() >= 1)
+        {
+            $re = $query->get();
 
-        return view('recepcions.report', ['recepciones' => $recepciones]);
+            foreach($re as $r)
+            {
+                $recepcions[] = Recepcion::find($r->id);
+            }
+
+            return view('recepcions.report', ['recepcions' => $recepcions]);
+        }
+        else
+        {
+            $alert =
+                [
+		    'type' => 'danger',
+		    'message' => 'No existen recepciones para esta fecha ;( '
+		];
+
+	    return redirect()->action('RecepcionsController@index', ['alert' => $alert]);
+        }
     }
 }
