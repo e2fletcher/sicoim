@@ -15,7 +15,6 @@ class UserTableSeeder extends Seeder
      */
 	public function run()
 	{
-
 		\DB::table('sucursals')->delete();
 		$s = new Sucursal;
 		$s->nombre = 'Centro de Acopio Sabana de Mendoza';
@@ -25,10 +24,22 @@ class UserTableSeeder extends Seeder
 		$s->ident = '001';
 		$s->save();
 
+		\DB::table('tipos')->delete();
+		$s = new Tipo;
+		$s->codigo = 'harin-001';
+		$s->nombre = 'Harina de Maiz Amarillo';
+		$s->generic_tipo = 'Harina';
+		$s->origen = 'Casa';
+		$s->precio = 9.43949;
+		$s->presentacion = 'Bulto';
+		$s->cantidad = 20;
+		$s->unidad = 'Kilogramo';
+		$s->save();
+
 		\DB::table('users')->delete();
 		$admin = new User;
-		$admin->email = 'admin@sicoime.com';
-		$admin->name = 'administrador';
+		$admin->email = 'e2fletcher@gmail.com';
+		$admin->name = 'Ender Fletcher';
 		$admin->password = \Hash::make('1234');
 		$admin->type = 0;
 		$admin->save();

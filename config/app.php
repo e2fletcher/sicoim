@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY', 'as890sas2kjwl2918w09klqjsl218098'),
+    'key' => env('APP_KEY', 'sadlasjdlasjdlajl'),
 
     'cipher' => 'AES-256-CBC',
 
@@ -138,7 +138,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
-        'Barryvdh\DomPDF\ServiceProvider',
         /*
          * Application Service Providers...
          */
@@ -193,8 +192,7 @@ return [
         'URL'       => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
-
-        'PDF' => 'Barryvdh\DomPDF\Facade',
+        'Str'      => 'Illuminate\Support\Str',
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
 	],

@@ -2,64 +2,66 @@
 @section('content')
     @parent
 <div class="row">
-	<div class="col-md-12">
-		<div class="panel panel-default">
-			<div class="panel-heading"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> SUCURSALES</div>
-			<div class="panel-body">
-				@if(isset($alert))
-				<div class="row">
-					<div class="col-md-12">
-					@include('layouts.alert')
-					</div>
-				</div>
-				@endif
-				<div class="row">
-					<div class="col-md-12">
-						<form class="navbar-form navbar-left" role="search" action="{!! action('SucursalsController@index')  !!}">
-							<button type="button" class="btn btn-primary" id="button_add"><i class="fa fa-plus-square"></i> Agregar</button>
-							<div class="form-group">
-								<input type="text" name="search" class="form-control" placeholder="Sucursal">
-							</div>
-							<button type="submit" id="button_search" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
-						</form>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<table class="table table-hover">
-							<thead>
-								<tr>
-									<th class="col-md-1">Codigo</th>
-									<th class="col-md-5">Sucursal</th>
-									<th class="col-md-4">Dirección</th>
-									<th class="col-md-2"></th>
-								</tr>
-							<tbody>
-								@foreach ($sucursals as $sucursal)
-								<tr data-id="{{ $sucursal->id  }}" data-ident="{{ $sucursal->ident }}" data-nombre="{{ $sucursal->nombre }}" data-direccion="{{ $sucursal->direccion }}" data-tlf="{{ $sucursal->tlf }}" data-coordenadas='{{ $sucursal->coordenadas  }}'>
-									<td class="col-md-1 text-uppercase"><span class="label label-default">{{ $sucursal->ident }}</span></td>
-									<td class="col-md-5 text-uppercase">
-										<span class="label label-default">
-											<span class="glyphicon glyphicon-home" aria-hidden="true"></span> 
-											{{ $sucursal->nombre }}
-										</span>
-									</td>
-									<td class="col-md-4 text-uppercase">{{ $sucursal->direccion }}</td>
-									<td class="col-md-2 text-right">
-										<button class="btn btn-default" type="button" data-name="button_edit" data-toggle="modal" data-target="#modal_form"><i class="fa fa-edit"></i></button>
-										<button class="btn btn-warning" type="button" data-toggle="modal" data-target="#layouts_modal_alert"><i class="fa fa-trash"></i></button>
-									</td>
-								</tr>
-								@endforeach
-							</tbody>
-						</table>
-							</thead>
-						</table>
-						{!! $sucursals->render() !!}
-					</div>
-				</div>
-			</div>
-		</div>
+    <div class="col-md-12">
+	<div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> SUCURSALES</div>
+                <div class="panel-body">
+                    @if(isset($alert))
+                    <div class="row">
+                        <div class="col-md-12">
+                        @include('layouts.alert')
+                        </div>
+                    </div>
+                    @endif
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="navbar-form navbar-left" role="search" action="{!! action('SucursalsController@index')  !!}">
+                                <button type="button" class="btn btn-primary" id="button_add"><i class="fa fa-plus-square"></i> Agregar</button>
+                                    <div class="form-group">
+                                        <input type="text" name="search" class="form-control" placeholder="Sucursal">
+                                    </div>
+                                <button type="submit" id="button_search" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                            <div class="col-md-12">
+                                    <table class="table table-hover">
+                                            <thead>
+                                                    <tr>
+                                                            <th class="col-md-1">Codigo</th>
+                                                            <th class="col-md-5">Sucursal</th>
+                                                            <th class="col-md-4">Dirección</th>
+                                                            <th class="col-md-2"></th>
+                                                    </tr>
+                                            <tbody>
+                                                    @foreach ($sucursals as $sucursal)
+                                                    <tr data-id="{{ $sucursal->id  }}" data-ident="{{ $sucursal->ident }}" data-nombre="{{ $sucursal->nombre }}" data-direccion="{{ $sucursal->direccion }}" data-tlf="{{ $sucursal->tlf }}" data-coordenadas='{{ $sucursal->coordenadas  }}'>
+                                                            <td class="col-md-1"><span class="label label-default">{{ \Str::upper($sucursal->ident) }}</span></td>
+                                                            <td class="col-md-5">
+                                                                    <span class="label label-default">
+                                                                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span> 
+                                                                            {{ \Str::upper($sucursal->nombre) }}
+                                                                    </span>
+                                                            </td>
+                                                            <td class="col-md-4">{{ \Str::upper($sucursal->direccion) }}</td>
+                                                            <td class="col-md-2 text-right">
+                                                                <div class="btn-group" role="group" aria-label="...">
+                                                                    <button class="btn btn-default" type="button" data-name="button_edit" data-toggle="modal" data-target="#modal_form"><i class="fa fa-edit"></i></button>
+                                                                    <button class="btn btn-warning" type="button" data-toggle="modal" data-target="#layouts_modal_alert"><i class="fa fa-trash"></i></button>
+                                                                </div>
+                                                            </td>
+                                                    </tr>
+                                                    @endforeach
+                                            </tbody>
+                                    </table>
+                                            </thead>
+                                    </table>
+                                    {!! $sucursals->render() !!}
+                            </div>
+                    </div>
+            </div>
+            </div>
 	</div>
 </div>
 @include('layouts.modal_alert')

@@ -27,6 +27,16 @@ class PasswordController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        //$this->middleware('guest');
+    }
+
+    public function getChangePassword()
+    {
+        return view('auth.change');   
+    }
+
+    public function postChangePassword()
+    {
+
     }
 }
