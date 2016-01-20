@@ -14,7 +14,8 @@ Route::get('auth/register', 'Auth\AuthController@getRegister');
 Route::post('auth/register', ['as' => 'auth/register', 'uses' => 'Auth\AuthController@postRegister']);
 Route::get('password/email', 'Auth\PasswordController@getEmail');
 Route::post('password/email', ['as' => 'password/email', 'uses' => 'Auth\PasswordController@postEmail']);
-
+Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
+Route::post('password/reset', 'Auth\PasswordController@postReset');
 /**
  * Modulos encargados de 
  * gestionar los tipos de productos

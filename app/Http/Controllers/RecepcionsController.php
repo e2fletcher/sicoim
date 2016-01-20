@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Recepcion;
 use App\Detallesrecepcion;
 use App\Producto;
+use Carbon\Carbon;
 
 class RecepcionsController extends Controller
 {
@@ -21,12 +22,12 @@ class RecepcionsController extends Controller
 			$newId = $lastRecepcion;
 		$newId += 1;
 
-	
+
 		if($request->alert)
 		{
 			return view('recepcions.index', ['newId' => $newId, 'alert' => $request->alert]);
 		}
-		
+
 		return view('recepcions.index', ['newId' => $newId]);
 	}
 
@@ -35,7 +36,6 @@ class RecepcionsController extends Controller
 		$success = false;
 
 		\DB::beginTransaction();
-		
 		try
 		{
 			$recepcion = new Recepcion;
@@ -76,19 +76,19 @@ class RecepcionsController extends Controller
 					$new->save();
 				}
 			}
-		
+
 			$success = true;
-		
+
 		}
 		catch (Exception $e)
 		{
-		
+
 		}
-		
+
 		if ($success)
 		{
 			\DB::commit();
-			
+
 			$alert =
 			[
 				'type' => 'success',
@@ -114,8 +114,13 @@ class RecepcionsController extends Controller
 			return view('recepcions.printer', ['recepcion' => $r]);
 	}
 
-	public function search(Request $request)
-	{
-		dd($request->all());
-	}
+    public function search(Request $request)
+    {
+        $date = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
+        $recepciones = DB::table('recepcions')
+            ->whereDate('created_at', '=' , $date)
+            ->where('sucursal_id', \Auth::user()->sucursal()->id);
+
+        return view('recepcions.report', ['recepciones' => $recepciones]);
+    }
 }
