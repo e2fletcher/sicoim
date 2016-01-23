@@ -10,7 +10,8 @@
 			</div>
 			<div class="panel-body">
 				<div class="panel panel-default">
-					<div class="panel-body">
+                                        <div class="panel-body">
+                                                @include('layouts.errors')
 						@if(isset($alert))
 						<div class="row">
 							<div class="col-md-12">

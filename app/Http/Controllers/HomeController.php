@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+
 class HomeController extends Controller {
 
 	/*
@@ -28,8 +30,12 @@ class HomeController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
-	{
+        public function index(Request $request)
+        {
+            if($request->input('alert'))
+            {
+                return view('index', ['alert' => $request->alert]);
+            }
 		return view('index');
 	}
 

@@ -6,7 +6,8 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><i class="fa fa-barcode"></i> LISTA DE PRODUCTOS</div>
 			<div class="panel-body">
-				@if(isset($alert))
+                                @include('layouts.errors')
+                                @if(isset($alert))
 				<div class="row">
 					<div class="col-md-12">
 					@include('layouts.alert')
@@ -41,8 +42,8 @@
 								@foreach ($tipos as $tipo)
 								<tr
 									data-id="{{ $tipo->id  }}"
-									data-codigo="{{ $tipo->codigo }}"
-									data-nombre="{{ $tipo->nombre }}"
+									data-codigo="{{ Str::upper($tipo->codigo) }}"
+									data-nombre="{{ Str::upper($tipo->nombre) }}"
 									data-origen="{{ $tipo->origen }}"
 									data-generic_tipo="{{ $tipo->generic_tipo }}"
 									data-presentacion="{{ $tipo->presentacion }}"
@@ -50,12 +51,12 @@
 									data-cantidad="{{ $tipo->cantidad }}"
 									data-precio="{{ $tipo->precio }}"
 								>
-									<td class="col-md-2"><i class="fa fa-barcode"></i> {{ $tipo->codigo }}</td>
-									<td class="col-md-2">{{ $tipo->nombre }}</td>
-									<td class="col-md-2">{{ $tipo->origen }}</td>
-									<td class="col-md-2">{{ $tipo->presentacion }}</td>
-									<td class="col-md-1">{{ $tipo->cantidad }}</td>
-									<td class="col-md-1 text-right">{{ $tipo->precio }}</td>
+									<td class="col-md-2"><i class="fa fa-barcode"></i> {{ Str::upper($tipo->codigo) }}</td>
+									<td class="col-md-2">{{ Str::upper($tipo->nombre) }}</td>
+									<td class="col-md-2">{{ Str::upper($tipo->origen) }}</td>
+									<td class="col-md-2">{{ Str::upper($tipo->presentacion) }}</td>
+									<td class="col-md-1">{{ Str::upper($tipo->cantidad) }}</td>
+									<td class="col-md-1 text-right">{{ Str::upper($tipo->precio) }}</td>
 									<td class="col-md-2 text-right">
 										<button class="btn btn-default" type="button" data-name="index-buttonedit" data-toggle="modal" data-target="#tipo_modal_form"><i class="fa fa-edit"></i></button>
 										<button class="btn btn-warning" type="button" data-toggle="modal" data-target="#layouts_modal_alert"><i class="fa fa-trash"></i></button>
@@ -84,7 +85,10 @@
 
 	$(document).ready(function(){
 		$("#index-buttonadd").button().click(function(){
-			$('#tipo_modal_form').modal("show");
+                    $("input#tipo_modal_form_codigo").removeAttr('disabled');
+                    $("input#tipo_modal_form_nombre").removeAttr('disabled');
+
+                    $('#tipo_modal_form').modal("show");
 			$('#tipo_modal_form_title').text("Agregar");
 			$('#tipo_modal_form_form').attr('action', '{!! action('TiposController@create') !!}');
 		});
@@ -93,6 +97,9 @@
 			if($(e.relatedTarget).data('name') == 'index-buttonedit')
 			{
 				tipo = $(e.relatedTarget).parents("tr");
+
+                                $("input#tipo_modal_form_codigo").attr('disabled','disabled');
+                                $("input#tipo_modal_form_nombre").attr('disabled','disabled');
 
 				$("input#tipo_modal_form_id").val(tipo.data("id"));
 				$("input#tipo_modal_form_codigo").val(tipo.data("codigo"));

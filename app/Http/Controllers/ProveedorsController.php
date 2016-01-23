@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Redirect;
@@ -37,43 +38,64 @@ class ProveedorsController extends Controller
 		return view('proveedors.index', ['proveedors' => $proveedors]);
 	}
 
-	public function create(Request $request)
-	{
-		$proveedor = new Proveedor;
-		$proveedor->ident = Str::lower($request->ident);
-		$proveedor->nombre = Str::lower($request->nombre);
-		$proveedor->direccion = Str::lower($request->direccion);
-		$proveedor->tlf = Str::lower($request->tlf);
-		$proveedor->email = Str::lower($request->email);
-		$proveedor->save();
+    public function create(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'ident' => 'required|unique:proveedors,ident',
+            'nombre' => 'required',
+            'direccion' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->action('ProveedorsController@index')
+                ->withErrors($validator);
+        }
+	
+        $proveedor = new Proveedor;
+	$proveedor->ident = Str::lower($request->ident);
+	$proveedor->nombre = Str::lower($request->nombre);
+	$proveedor->direccion = Str::lower($request->direccion);
+	$proveedor->tlf = Str::lower($request->tlf);
+	$proveedor->email = Str::lower($request->email);
+	$proveedor->save();
 		
-		$alert =
-		[
-			'type' => 'warning',
-			'message' => \Lang::get('messages.model-create', ['model' => 'Proveedor', 'name' => $proveedor->nombre])
-		];
+	$alert =
+	[
+	    'type' => 'warning',
+	    'message' => \Lang::get('messages.model-create', ['model' => 'Proveedor', 'name' => $proveedor->nombre])
+	];
 
-		return redirect()->action('ProveedorsController@index', ['alert' => $alert]);
-	}
+	return redirect()->action('ProveedorsController@index', ['alert' => $alert]);
+    }
 
-	public function update(Request $request)
-	{
-		$proveedor = Proveedor::find($request->id);
-		$proveedor->ident = Str::lower($request->ident);
-		$proveedor->nombre = Str::lower($request->nombre);
-		$proveedor->direccion = Str::lower($request->direccion);
-		$proveedor->tlf = Str::lower($request->tlf);
-		$proveedor->email = Str::lower($request->email);
-		$proveedor->save();
+    public function update(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required',
+            'direccion' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->action('ProveedorsController@index')
+                ->withErrors($validator);
+        }
+
+        $proveedor = Proveedor::find($request->id);
+	$proveedor->nombre = Str::lower($request->nombre);
+	$proveedor->direccion = Str::lower($request->direccion);
+	$proveedor->tlf = Str::lower($request->tlf);
+	$proveedor->email = Str::lower($request->email);
+	$proveedor->save();
 			
-		$alert =
-		[
-			'type' => 'warning',
-			'message' => \Lang::get('messages.model-update', ['model' => 'Proveedor', 'name' => $proveedor->nombre])
-		];
+	$alert =
+	[
+	    'type' => 'warning',
+	    'message' => \Lang::get('messages.model-update', ['model' => 'Proveedor', 'name' => $proveedor->nombre])
+        ];
 		
-		return redirect()->action('ProveedorsController@index', ['alert' => $alert]);
-	}
+	return redirect()->action('ProveedorsController@index', ['alert' => $alert]);
+    }
 
 	public function destroy(Request $request)
 	{

@@ -19,14 +19,14 @@
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
 		@yield('head')
-	</head>
-	<body>
-		<div class="hidden-print">
-			@include('layouts.header')
-		</div>
-		<div class="container">
-			@yield('content')
-		</div>
+    </head>
+    <body>
+        <div class="hidden-print">
+	    @include('layouts.header')
+	</div>
+        <div class="container">
+	    @yield('content')
+	</div>
 
 		<footer id="footer" class="footer hidden-print">
 			<div class="container text-center">

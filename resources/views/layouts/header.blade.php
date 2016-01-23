@@ -84,6 +84,9 @@
 					break;
 				case 'ventas':
 					$('#consulta_modal_form').find('form').attr('action', '{!! action('VentasController@search') !!}');
+                                        break;
+				case 'transferencias':
+					$('#consulta_modal_form').find('form').attr('action', '{!! action('TransferenciasController@search') !!}');
 					break;
 				default:
 					break;

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use DB;
+use Validator;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Redirect;
 use Illuminate\Support\Str;
@@ -44,7 +46,20 @@ class ClientesController extends Controller
 	}
 
 	public function create(Request $request)
-	{
+        {
+
+            $validator = Validator::make($request->all(), [
+                'ident' => 'required|unique:clientes,ident',
+                'nombre' => 'required',
+                'direccion' => 'required',
+                'tipo' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->action('ClientesController@index')
+                    ->withErrors($validator);
+            }
+
 		$cliente = new Cliente;
 		$cliente->ident = Str::lower($request->ident);
 		$cliente->nombre = Str::lower($request->nombre);
@@ -64,9 +79,20 @@ class ClientesController extends Controller
 	}
 
 	public function update(Request $request)
-	{
+        {
+
+            $validator = Validator::make($request->all(), [
+                'nombre' => 'required',
+                'direccion' => 'required',
+                'tipo' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->action('ClientesController@index')
+                    ->withErrors($validator);
+            }
+
 		$cliente = Cliente::find($request->id);
-		$cliente->ident = Str::lower($request->ident);
 		$cliente->nombre = Str::lower($request->nombre);
 		$cliente->tipo = $request->tipo;
 		$cliente->direccion = Str::lower($request->direccion);

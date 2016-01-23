@@ -6,6 +6,7 @@
 	<div class="panel panel-default">
             <div class="panel-heading"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> SUCURSALES</div>
                 <div class="panel-body">
+                    @include('layouts.errors')
                     @if(isset($alert))
                     <div class="row">
                         <div class="col-md-12">
@@ -77,7 +78,8 @@
 		 * Button Add
 		 */
 		$("#button_add").button().click(function(){
-			console.log("> Clicked button_add");
+                    $("input#modal_form-ident").removeAttr('disabled');
+                    console.log("> Clicked button_add");
 			$('#modal_form').modal("show");
 			$('#modal_form-title').text("Agregar");
 			$('#modal_form-form').attr('action', '{!! action('SucursalsController@create') !!}');
@@ -107,7 +109,9 @@
 			{
 				console.log('Clicked button_edit');
 				sucursal = $(e.relatedTarget).parents("tr");
-				$("input#modal_form-id").val(sucursal.data("id"));
+
+                                $("input#modal_form-ident").attr('disabled','disabled');
+                                $("input#modal_form-id").val(sucursal.data("id"));
 				$("input#modal_form-ident").val(sucursal.data("ident"));
 				$("input#modal_form-nombre").val(sucursal.data("nombre"));
 				$("input#modal_form-direccion").val(sucursal.data("direccion"));
