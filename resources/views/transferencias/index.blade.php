@@ -11,7 +11,8 @@
 			<div class="panel-body">
 				<div class="panel panel-default">
 					<div class="panel-body">
-						@if(isset($alert))
+                                                @include('layouts.errors')
+                                                @if(isset($alert))
 						<div class="row">
 							<div class="col-md-12">
 							@include('layouts.alert')

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -45,7 +46,20 @@ class SucursalsController extends Controller
 	}
 
 	public function create(Request $request)
-	{
+        {
+
+            $validator = Validator::make($request->all(), [
+                'ident' => 'required|unique:sucursals,ident',
+                'nombre' => 'required',
+                'direccion' => 'required',
+                'tlf' => 'required',
+                'coordenadas' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->action('SucursalsController@index')
+                    ->withErrors($validator);
+            }
 		$sucursal = new Sucursal;
 		$sucursal->ident = Str::lower($request->ident);
 		$sucursal->nombre = Str::lower($request->nombre);
@@ -65,8 +79,20 @@ class SucursalsController extends Controller
 
 	public function update(Request $request)
 	{
-		$sucursal = Sucursal::find($request->id);
-		$sucursal->ident = Str::lower($request->ident);
+
+            $validator = Validator::make($request->all(), [
+                'nombre' => 'required',
+                'direccion' => 'required',
+                'tlf' => 'required',
+                'coordenadas' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->action('SucursalsController@index')
+                    ->withErrors($validator);
+            }
+
+            $sucursal = Sucursal::find($request->id);
 		$sucursal->nombre = Str::lower($request->nombre);
 		$sucursal->direccion = Str::lower($request->direccion);
 		$sucursal->coordenadas = $request->coordenadas;

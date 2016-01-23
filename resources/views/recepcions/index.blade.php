@@ -10,7 +10,8 @@
 			</div>
 			<div class="panel-body">
 				<div class="panel panel-default">
-					<div class="panel-body">
+                                        <div class="panel-body">
+                                                @include('layouts.errors')
 						@if(isset($alert))
 						<div class="row">
 							<div class="col-md-12">
@@ -20,7 +21,7 @@
 						@endif
 						<form class="form-inline">
 							<div class="row row_padding_button">
-								<div class="form-group col-md-5">
+								<div class="form-group col-lg-5">
 									<label class="sr-only" for=""></label>
 									<div class="input-group">
 										<div class="input-group-addon"><i class="fa fa-truck"></i> Proveedor</div>

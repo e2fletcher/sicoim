@@ -6,7 +6,8 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">CLIENTES</div>
 			<div class="panel-body">
-				@if(isset($alert))
+                                @include('layouts.errors') 
+                                @if(isset($alert))
 				<div class="row">
 					<div class="col-md-12">
 					@include('layouts.alert')
@@ -78,7 +79,8 @@
 		 * Button Add
 		 */
 		$("#button_add").button().click(function(){
-			console.log("> Clicked button_add");
+                    $("input#modal_form-ident").removeAttr('disabled');
+                    console.log("> Clicked button_add");
 			$('#modal_form').modal("show");
 			$('#modal_form-title').text("Agregar");
 			$('#modal_form-form').attr('action', '{!! action('ClientesController@create') !!}');
@@ -108,7 +110,9 @@
 			{
 				console.log('Clicked button_edit');
 				cliente = $(e.relatedTarget).parents("tr");
-				$("input#modal_form-id").val(cliente.data("id"));
+
+                                $("input#modal_form-ident").attr('disabled','disabled');
+                                $("input#modal_form-id").val(cliente.data("id"));
 				$("input#modal_form-ident").val(cliente.data("ident"));
 				$("input#modal_form-nombre").val(cliente.data("nombre"));
 				$("input#modal_form-direccion").val(cliente.data("direccion"));

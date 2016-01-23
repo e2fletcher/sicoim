@@ -12,7 +12,7 @@ class CreateProveedorsTable extends Migration
 			Schema::create('proveedors', function(Blueprint $table){
 				$table->engine = 'InnoDB';
 				$table->increments('id');
-				$table->string('nombre')->unique();
+				$table->string('nombre');
 				$table->string('ident')->unique();
 				$table->string('direccion')->nullable();
 				$table->string('tlf')->nullable();

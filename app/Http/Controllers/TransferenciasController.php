@@ -11,6 +11,7 @@ use App\Transferencia;
 use App\Detallestransferencia;
 use App\Producto;
 use App\Tipo;
+use Carbon\Carbon;
 
 class TransferenciasController extends Controller
 {
@@ -122,8 +123,37 @@ class TransferenciasController extends Controller
 			return view('transferencias.printer', ['transferencia' => $r]);
 	}
 
-	public function search(Request $request)
-	{
-		dd($request->all());
-	}
+    public function search(Request $request)
+    {
+        $date = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
+        $query = DB::table('transferencias')
+            ->whereDate('created_at', '=' , $date)
+            ->where(function($query){
+                $query->where('sucursal_id', \Auth::user()->sucursal()->id)
+                    ->orWhere('sucursal_hasta_id', \Auth::user()->sucursal()->id);
+            });
+
+        
+        if($query->count() >= 1)
+        {
+            $re = $query->get();
+
+            foreach($re as $r)
+            {
+                $transferencias[] = Transferencia::find($r->id);
+            }
+
+            return view('transferencias.report', ['transferencias' => $transferencias]);
+        }
+        else
+        {
+            $alert =
+                [
+		    'type' => 'danger',
+		    'message' => 'No existen transferencias para esta fecha ;( '
+		];
+
+	    return redirect()->action('TransferenciasController@index', ['alert' => $alert]);
+        }
+    }
 }

@@ -48,7 +48,7 @@ Route::group(['prefix' => 'tipos'], function() {
  */
 Route::group(['prefix' => 'clientes'], function() {
     Route::group(['middleware' => 'auth'], function(){
-        Route::group(['middleware' => 'auth_type:1'], function(){
+        Route::group(['middleware' => 'auth_type:3'], function(){
 	    Route::get('/', 'ClientesController@index');
     	    Route::post('create', 'ClientesController@create');
 	    Route::post('update', 'ClientesController@update');
@@ -64,7 +64,7 @@ Route::group(['prefix' => 'clientes'], function() {
  * gestionar los proveedores
  */
 Route::group(['prefix' => 'proveedors'], function() {
-    Route::group(['middleware' => ['auth', 'auth_type:1']], function(){
+    Route::group(['middleware' => ['auth', 'auth_type:2']], function(){
 	Route::get('/', 'ProveedorsController@index');
 	Route::get('/search', 'ProveedorsController@search');
 	Route::post('create', 'ProveedorsController@create');
@@ -79,7 +79,7 @@ Route::group(['prefix' => 'proveedors'], function() {
  * gestionar los sucursales
  */
 Route::group(['prefix' => 'sucursals'], function() {
-    Route::group(['middleware' => ['auth', 'auth_type:1']], function(){
+    Route::group(['middleware' => ['auth', 'auth_type:0']], function(){
 	Route::get('/', 'SucursalsController@index');
 	Route::post('create', 'SucursalsController@create');
 	Route::post('update', 'SucursalsController@update');
@@ -93,7 +93,7 @@ Route::group(['prefix' => 'sucursals'], function() {
  * Modulo de recepciones
  */
 Route::group(['prefix' => 'recepcions'], function(){
-    Route::group(['middleware' => ['auth', 'auth_type:1']], function(){
+    Route::group(['middleware' => ['auth', 'auth_type:2']], function(){
 	Route::any('/', 'RecepcionsController@index');
 	Route::post('process', 'RecepcionsController@process');
 	Route::get('printer', 'RecepcionsController@printer');
@@ -107,7 +107,7 @@ Route::group(['prefix' => 'recepcions'], function(){
  * Modulo de productos
  */
 Route::group(['prefix' => 'productos'], function(){
-    Route::group(['middleware' => ['auth', 'auth_type:1']], function(){
+    Route::group(['middleware' => ['auth', 'auth_type:3']], function(){
         Route::get('search', 'ProductosController@search');
     });
 });
@@ -116,7 +116,7 @@ Route::group(['prefix' => 'productos'], function(){
  * Modulo de ventas
  */
 Route::group(['prefix' => 'ventas'], function(){
-    Route::group(['middleware' => ['auth', 'auth_type:1']], function(){
+    Route::group(['middleware' => ['auth', 'auth_type:3']], function(){
 	Route::any('/', 'VentasController@index');
 	Route::post('process', 'VentasController@process');
 	Route::get('printer', 'VentasController@printer');
@@ -129,7 +129,7 @@ Route::group(['prefix' => 'ventas'], function(){
  * Modulo de transferencias
  */
 Route::group(['prefix' => 'transferencias'], function(){
-    Route::group(['middleware' => ['auth', 'auth_type:1']], function(){
+    Route::group(['middleware' => ['auth', 'auth_type:2']], function(){
 	Route::any('/', 'TransferenciasController@index');
 	Route::post('process', 'TransferenciasController@process');
         Route::get('printer', 'TransferenciasController@printer');

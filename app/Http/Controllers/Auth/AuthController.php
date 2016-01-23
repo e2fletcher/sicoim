@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Illuminate\Support\Str;
 
 use App\User;
 use Validator;
@@ -45,7 +46,7 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
+            'name' => 'required|unique:users,name|max:255',
             'type' => 'required|integer',
             'sucursal' => 'required|exists:sucursals,id',
             'email' => 'required|email|max:255|unique:users',
@@ -75,14 +76,32 @@ class AuthController extends Controller
 	$user->type = (int) $data['type'];
 	$user->save();
         $user->sucursals()->sync([$data['sucursal']]);
-
-        return $user;
     }
 	
-	public function getLogin(Request $request)
-	{
-		if($request->errors)
-			return view('auth.login', ['errors' => $request->errors]);
+    public function postRegister(Request $request)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        $this->create($request->all());
+
+        $alert = [
+            'type' => 'success',
+	    'message' => 'El usuario ' . Str::upper($request->input('email')) . ' a sido registrado satisfactoriamente :)'
+	];
+
+	return redirect()->action('HomeController@index', ['alert' => $alert]);
+    }
+    
+    public function getLogin(Request $request)
+    {
+        if($request->errors)
+	    return view('auth.login', ['errors' => $request->errors]);
 
         return view('auth.login');
 

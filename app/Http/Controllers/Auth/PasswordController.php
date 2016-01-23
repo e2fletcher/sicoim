@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+
+use App\Http\Requests;
+use Validator;
+use Auth;
 
 class PasswordController extends Controller
 {
@@ -35,8 +40,28 @@ class PasswordController extends Controller
         return view('auth.change');   
     }
 
-    public function postChangePassword()
+    public function postChangePassword(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|min:6|confirmed',
+        ]);
 
+        if ($validator->fails()) {
+            return redirect('home/')
+                ->withErrors($validator);
+        }
+        
+        $user = Auth::user();
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        $alert = [
+            'type' => 'success',
+	    'message' => 'La contraseña a sido modificada con exito '
+	];
+
+	return redirect()->action('HomeController@index', ['alert' => $alert]);
     }
+
+
 }

@@ -1,7 +1,18 @@
 @extends('layouts.master')
 
 @section('content')	
-	@parent
+@parent
+
+@include('layouts.errors')
+
+@if(isset($alert))
+<div class="row">
+    <div class="col-md-12">
+        @include('layouts.alert')
+    </div>
+</div>
+@endif
+
 <div class="row hidden-xs row_padding_button">
 	<div class="col-lg-12">
 		@include('carousel')

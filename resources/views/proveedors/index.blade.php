@@ -5,7 +5,8 @@
 	<div class="col-md-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">PROVEEDORES</div>
-			<div class="panel-body">
+                        <div class="panel-body">
+                                @include('layouts.errors')
 				@if(isset($alert))
 				<div class="row">
 					<div class="col-md-12">
@@ -79,7 +80,8 @@
 		 */
 		$("#button_add").button().click(function(){
 			console.log("> Clicked button_add");
-			$('#modal_form').modal("show");
+                        $("input#modal_form-ident").removeAttr('disabled');
+                        $('#modal_form').modal("show");
 			$('#modal_form-title').text("Agregar");
 			$('#modal_form-form').attr('action', '{!! action('ProveedorsController@create') !!}');
 		});
@@ -105,7 +107,9 @@
 		 */
 		$("#modal_form").on('show.bs.modal', function(e){
 			if($(e.relatedTarget).data('name') == 'button_edit')
-			{
+                        {
+                                $("input#modal_form-ident").attr('disabled', 'disabled');
+
 				console.log('Clicked button_edit');
 				proveedor = $(e.relatedTarget).parents("tr");
 				$("input#modal_form-id").val(proveedor.data("id"));

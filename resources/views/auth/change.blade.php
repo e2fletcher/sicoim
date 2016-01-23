@@ -6,7 +6,15 @@
         <div class="col-md-8 col-md-offset-2">
 	    <div class="panel panel-default">
 	        <div class="panel-heading">Modificar contraseña</div>
-		<div class="panel-body">
+                <div class="panel-body">
+                @if(isset($alert))
+		    <div class="row">
+		        <div class="col-md-12">
+			    @include('layouts.alert')
+			</div>
+		    </div>
+		@endif
+
 		@if (count($errors) > 0)
 		    <div class="alert alert-danger">
 		        <strong>Epa!</strong> algo salió mal :(.<br><br>
@@ -32,7 +40,7 @@
                     <div class="form-group">
 		        <label class="col-md-4 control-label">Repita contraseña</label>
 	    	        <div class="col-md-6">
-                            <input type="password" class="form-control" name="password" data-match="#inputPassword" data-match-error="Las contraseñas no coinciden" required>
+                            <input type="password" class="form-control" name="password_confirmation" data-match="#inputPassword" data-match-error="Las contraseñas no coinciden" required>
                             <div class="help-block with-errors"></div>
 			</div>
 		    </div>

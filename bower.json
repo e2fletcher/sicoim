@@ -1,0 +1,23 @@
+{
+  "name": "sicoime",
+  "description": "Sistema de Gestion de Centros de Acopios Mercal",
+  "main": "",
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-datepicker": "~1.4.1",
+    "font-awesome": "~4.4.0",
+    "bootstrap-validator": "~0.9.0",
+    "moment": "~2.10.6",
+    "typeahead.js-bootstrap3.less": "bassjobsen/typeahead.js-bootstrap-css#~1.0.1"
+  }
+}
