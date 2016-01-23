@@ -56,9 +56,9 @@
 						<span class="label label-default label-sm"><i class="fa fa-user"></i> {{ Auth::user()->email }}</span>
 				<span class="caret"></span></a>
 				<ul class="dropdown-menu">
-					<li><a href="{{ url('password/reset/'. Auth::user()->getRememberToken()) }}"><i class="fa fa-gear"></i> Modificar contraseña<span class="sr-only"></span></a></li>
+					<li><a href="{{ url('password/change') }}"><i class="fa fa-gear"></i> Modificar contraseña<span class="sr-only"></span></a></li>
 					@if(Auth::user()->type < 1)
-						<li><a href="#"><i class="fa fa-gear"></i> Agregar usuarios<span class="sr-only"></span></a></li>
+						<li><a href="{{ url('auth/register') }}"><i class="fa fa-gear"></i> Agregar usuarios<span class="sr-only"></span></a></li>
 					@endif
 					<li><a href="{!! route('auth/logout') !!}"><i class="fa fa-lock"></i> Salir</a></li>
 				</ul>

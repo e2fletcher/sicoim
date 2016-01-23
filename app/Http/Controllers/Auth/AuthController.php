@@ -46,6 +46,8 @@ class AuthController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
+            'type' => 'required|integer',
+            'sucursal' => 'required|exists:sucursals,id',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
         ]);
@@ -59,11 +61,22 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        /*$user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'type' => (int) $data['type'],
             'password' => bcrypt($data['password']),
-        ]);
+        ]);*/
+
+	$user = new User;
+	$user->email = $data['email'];
+	$user->name = $data['name'];
+	$user->password = \Hash::make($data['password']);
+	$user->type = (int) $data['type'];
+	$user->save();
+        $user->sucursals()->sync([$data['sucursal']]);
+
+        return $user;
     }
 	
 	public function getLogin(Request $request)
