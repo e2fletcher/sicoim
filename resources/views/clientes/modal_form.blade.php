@@ -34,7 +34,7 @@
 								<label for="modal_form-tlf">Telefono</label>
 								<div class="row">
 									<div class="col-md-4">
-										<input type="text" name="tlf" class="form-control" id="modal_form-tlf">
+										<input type="text" pattern="^\+?\d{1,3}?[- .]?\(?(?:\d{2,3})\)?[- .]?\d\d\d[- .]?\d\d\    d\d$" name="tlf" class="form-control" id="modal_form-tlf">
 									</div>
 								</div>
 							</div>

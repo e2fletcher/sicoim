@@ -172,7 +172,9 @@
 				}
 			}
 		})
-			.on('typeahead:selected', function(e, tipo) {
+                    .on('typeahead:selected', function(e, tipo) {
+                                $("#producto_input_cantidad").val("");
+                                $("#producto_input_caducidad").val("");
 				$('#producto_modal_form').modal("show");
 				$('#producto_modal_form_title').text(tipo.codigo.toUpperCase());
 				$('#producto_input_tipo_id').val(tipo.id);

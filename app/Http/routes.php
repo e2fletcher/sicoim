@@ -84,8 +84,12 @@ Route::group(['prefix' => 'sucursals'], function() {
 	Route::post('create', 'SucursalsController@create');
 	Route::post('update', 'SucursalsController@update');
 	Route::get('destroy', 'SucursalsController@destroy');
+    });
+
+    Route::group(['middleware' => ['auth', 'auth_type:2']], function(){
 	Route::get('search', 'SucursalsController@search');
     });
+        
     Route::get('maps', 'SucursalsController@maps');
 });
 

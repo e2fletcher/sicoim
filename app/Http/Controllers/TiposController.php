@@ -43,7 +43,6 @@ class TiposController extends Controller
 
         $validator = Validator::make($request->all(), [
             'codigo' => 'required|unique:tipos,codigo',
-            'nombre' => 'required|unique:tipos,nombre',
             'origen' => 'required',
             'generic_tipo' => 'required', 
             'presentacion' => 'required',
@@ -79,6 +78,7 @@ class TiposController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'nombre' => 'required',
             'origen' => 'required',
             'generic_tipo' => 'required', 
             'presentacion' => 'required',
@@ -93,6 +93,7 @@ class TiposController extends Controller
         }
         
         $tipo = Tipo::find($request->id);
+        $tipo->nombre = $request->nombre;
         $tipo->generic_tipo = $request->generic_tipo;
         $tipo->origen = $request->origen;
         $tipo->precio = $request->precio;

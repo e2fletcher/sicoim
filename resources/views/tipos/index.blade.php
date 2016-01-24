@@ -86,7 +86,11 @@
 	$(document).ready(function(){
 		$("#index-buttonadd").button().click(function(){
                     $("input#tipo_modal_form_codigo").removeAttr('disabled');
-                    $("input#tipo_modal_form_nombre").removeAttr('disabled');
+
+		    $("input#tipo_modal_form_codigo").val("");
+		    $("input#tipo_modal_form_nombre").val("");
+		    $("input#tipo_modal_form_cantidad").val("");
+		    $("input#tipo_modal_form_precio").val("");
 
                     $('#tipo_modal_form').modal("show");
 			$('#tipo_modal_form_title').text("Agregar");
@@ -99,7 +103,6 @@
 				tipo = $(e.relatedTarget).parents("tr");
 
                                 $("input#tipo_modal_form_codigo").attr('disabled','disabled');
-                                $("input#tipo_modal_form_nombre").attr('disabled','disabled');
 
 				$("input#tipo_modal_form_id").val(tipo.data("id"));
 				$("input#tipo_modal_form_codigo").val(tipo.data("codigo"));

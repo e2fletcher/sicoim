@@ -13,7 +13,7 @@ class CreateTiposTable extends Migration
 				$table->engine = 'InnoDB';
 				$table->increments('id');
 				$table->string('codigo')->unique();
-				$table->string('nombre')->unique();
+				$table->string('nombre');
 				$table->string('origen');
 				$table->string('generic_tipo');
 				$table->string('presentacion');

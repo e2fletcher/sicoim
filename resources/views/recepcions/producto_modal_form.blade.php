@@ -16,7 +16,7 @@
                                 </div>
                                 <div class="form-group col-md-7">
                                     <label for="producto_input_caducidad">Caduca</label>
-                                    <input type="text" class="form-control" id="producto_input_caducidad" data-provide="datepicker" data-date-format="dd/mm/yyyy">
+                                    <input type="text" class="form-control" id="producto_input_caducidad" data-date-start-date="0d" data-provide="datepicker" data-date-format="dd/mm/yyyy">
                                 </div>
                             </div>
 			</div>
