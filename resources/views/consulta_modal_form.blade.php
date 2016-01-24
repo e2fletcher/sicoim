@@ -10,10 +10,11 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="row">
-								<div class="form-group col-md-12">
-									<label for="consultas_input_fecha">Fecha</label>
-									<input type="text" name="date" class="form-control" data-date-end-date="0d" id="consulta_input_fecha" data-provide="datepicker" data-date-format="dd/mm/yyyy" required>
-								</div>
+							    <div class="input-group input-daterange col-md-12">
+                                                                <input type="text" name="date" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-end-date="0d" required>
+                                                                <span class="input-group-addon"> al </span>
+                                                                <input type="text" name="dateend" class="form-control" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-end-date="0d" required>
+                                                            </div>
 							</div>
 						</div>
 					</div>
@@ -26,3 +27,4 @@
 		</div>
 	</div>
 </div>
+

@@ -106,9 +106,12 @@ class VentasController extends Controller
 	public function search(Request $request)
         {
             $date = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
+            $dateEnd = Carbon::createFromFormat('d/m/Y', $request->dateend)->format('Y-m-d');
+        
             $query = DB::table('ventas')
-            ->whereDate('created_at', '=' , $date)
-            ->where('sucursal_id', \Auth::user()->sucursal()->id);
+                ->whereDate('created_at', '>=' , $date)
+                ->whereDate('created_at', '<=' , $dateEnd)
+                ->where('sucursal_id', \Auth::user()->sucursal()->id);
         
             if($query->count() >= 1)
             {

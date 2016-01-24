@@ -126,8 +126,11 @@ class TransferenciasController extends Controller
     public function search(Request $request)
     {
         $date = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
+        $dateEnd = Carbon::createFromFormat('d/m/Y', $request->dateend)->format('Y-m-d');
+        
         $query = DB::table('transferencias')
-            ->whereDate('created_at', '=' , $date)
+            ->whereDate('created_at', '>=' , $date)
+            ->whereDate('created_at', '<=' , $dateEnd)
             ->where(function($query){
                 $query->where('sucursal_id', \Auth::user()->sucursal()->id)
                     ->orWhere('sucursal_hasta_id', \Auth::user()->sucursal()->id);

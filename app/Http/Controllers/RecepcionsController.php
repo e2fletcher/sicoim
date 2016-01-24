@@ -116,11 +116,15 @@ class RecepcionsController extends Controller
 
     public function search(Request $request)
     {
+
         $date = Carbon::createFromFormat('d/m/Y', $request->date)->format('Y-m-d');
-        $query = DB::table('recepcions')
-            ->whereDate('created_at', '=' , $date)
-            ->where('sucursal_id', \Auth::user()->sucursal()->id);
+        $dateEnd = Carbon::createFromFormat('d/m/Y', $request->dateend)->format('Y-m-d');
         
+        $query = DB::table('recepcions')
+            ->whereDate('created_at', '>=' , $date)
+            ->whereDate('created_at', '<=' , $dateEnd)
+            ->where('sucursal_id', \Auth::user()->sucursal()->id);
+
         if($query->count() >= 1)
         {
             $re = $query->get();
