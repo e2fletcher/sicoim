@@ -15,6 +15,7 @@ class CreateSucursalsTable extends Migration
 				$table->string('ident')->unique();
 				$table->string('nombre');
 				$table->string('direccion');
+				$table->string('photo');
 				$table->string('tlf');
 				$table->string('coordenadas');
 			});

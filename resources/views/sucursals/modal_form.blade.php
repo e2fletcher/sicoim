@@ -6,7 +6,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title" id="modal_form-title"><i class="fa fa-warning"></i> Title</h4>
 			</div>
-			<form id="modal_form-form" method="POST" role="form" data-toggle="validator">
+			<form id="modal_form-form" method="POST" role="form" data-toggle="validator" enctype="multipart/form-data">
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-md-12">
@@ -25,6 +25,14 @@
 							<div class="form-group">
 								<label for="modal_form-direccion">Direccion</label>
 								<input type="text" name="direccion" class="form-control" id="modal_form-direccion" required>
+							</div>
+							<div class="form-group">
+								<label for="modal_form-tlf">Foto</label>
+								<div class="row">
+									<div class="col-md-12">
+										<input type="file"  name="photo" class="form-control">
+									</div>
+								</div>
 							</div>
 							<div class="form-group">
 								<label for="modal_form-tlf">Telefono</label>
