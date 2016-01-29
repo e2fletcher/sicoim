@@ -46,58 +46,82 @@ class SucursalsController extends Controller
 	}
 
 	public function create(Request $request)
-        {
+  {
+    $validator = Validator::make($request->all(), [
+      'ident' => 'required|unique:sucursals,ident',
+      'nombre' => 'required',
+      'photo' => 'image|image_size:<=800',
+      'direccion' => 'required',
+      'tlf' => 'required',
+      'coordenadas' => 'required',
+    ]);
 
-            $validator = Validator::make($request->all(), [
-                'ident' => 'required|unique:sucursals,ident',
-                'nombre' => 'required',
-                'direccion' => 'required',
-                'tlf' => 'required',
-                'coordenadas' => 'required',
-            ]);
+    if ($validator->fails()) {
+        return redirect()->action('SucursalsController@index')
+            ->withErrors($validator);
+    }
+    
+    $sucursal = new Sucursal;
+    $sucursal->ident = Str::lower($request->ident);
+    $sucursal->nombre = Str::lower($request->nombre);
+    $sucursal->direccion = Str::lower($request->direccion);
+    $sucursal->tlf = Str::lower($request->tlf);
+    $sucursal->coordenadas = $request->coordenadas;
+    
+    if($request->hasFile('photo'))
+    {
+      $photoUpload = $request->file('photo');
+      $ext = $photoUpload->getClientOriginalExtension();
+      $photoName = sha1(\File::get($photoUpload)) . '.' . $ext;
+      $sucursal->photo = $photoName;
+      if(!\Storage::disk('local')->exists('sucursals/'))
+        \Storage::disk('local')->makeDirectory('sucursals');
+      \Storage::disk('local')->put('sucursals/' . $photoName,  \File::get($photoUpload));
+    }
+    $sucursal->save();
 
-            if ($validator->fails()) {
-                return redirect()->action('SucursalsController@index')
-                    ->withErrors($validator);
-            }
-		$sucursal = new Sucursal;
-		$sucursal->ident = Str::lower($request->ident);
-		$sucursal->nombre = Str::lower($request->nombre);
-		$sucursal->direccion = Str::lower($request->direccion);
-		$sucursal->tlf = Str::lower($request->tlf);
-		$sucursal->coordenadas = $request->coordenadas;
-		$sucursal->save();
-		
-		$alert =
-		[
-			'type' => 'warning',
-			'message' => \Lang::get('messages.model-create', ['model' => 'Sucursal', 'name' => $sucursal->nombre])
-		];
+    $alert =
+    [
+      'type' => 'warning',
+      'message' => \Lang::get('messages.model-create', ['model' => 'Sucursal', 'name' => $sucursal->nombre])
+    ];
 
-		return redirect()->action('SucursalsController@index', ['alert' => $alert]);
+    return redirect()->action('SucursalsController@index', ['alert' => $alert]);
 	}
 
 	public function update(Request $request)
-	{
+  {
+    $validator = Validator::make($request->all(), [
+      'nombre' => 'required',
+      'direccion' => 'required',
+      'photo' => 'image|image_size:<=800',
+      'tlf' => 'required',
+      'coordenadas' => 'required',
+    ]);
 
-            $validator = Validator::make($request->all(), [
-                'nombre' => 'required',
-                'direccion' => 'required',
-                'tlf' => 'required',
-                'coordenadas' => 'required',
-            ]);
+    if ($validator->fails()) {
+      return redirect()->action('SucursalsController@index')
+        ->withErrors($validator);
+    }
 
-            if ($validator->fails()) {
-                return redirect()->action('SucursalsController@index')
-                    ->withErrors($validator);
-            }
-
-            $sucursal = Sucursal::find($request->id);
+    $sucursal = Sucursal::find($request->id);
 		$sucursal->nombre = Str::lower($request->nombre);
 		$sucursal->direccion = Str::lower($request->direccion);
 		$sucursal->coordenadas = $request->coordenadas;
 		$sucursal->tlf = Str::lower($request->tlf);
-		$sucursal->save();
+
+    if($request->hasFile('photo'))
+    {
+      $photoUpload = $request->file('photo');
+      $ext = $photoUpload->getClientOriginalExtension();
+      $photoName = sha1(\File::get($photoUpload)) . '.' . $ext;
+      $sucursal->photo = $photoName;
+      if(!\Storage::disk('local')->exists('sucursals/'))
+        \Storage::disk('local')->makeDirectory('sucursals');
+      \Storage::disk('local')->put('sucursals/' . $photoName,  \File::get($photoUpload));
+    }
+
+    $sucursal->save();
 			
 		$alert =
 		[
@@ -117,58 +141,31 @@ class SucursalsController extends Controller
 
 	public function maps(Request $request)
 	{
-		/*if(!$request->ajax() && 0)
+    $points = array();
+    
+    $sucursals = Sucursal::all();
+		if($sucursals->count() > 0)
 		{
-			$data = [
-				"center" =>[ -5.797942,-35.211782 ],
-				"zoom" => 14,
-				"points" => [
-					[
-						"coor" => [ -5.799500,-35.21951 ],
-						"text" => "First point<br/>Anything here"
-					],
-					[
-						"coor" => [ -5.790982,-35.19409 ],
-						"text" => "Other <b>point</b> here"
-					],
-					[
-						"coor" => [ -5.802083,-35.20877 ],
-						"text" => "Something else<br/>placed here"
-					]
-				]
-			];
-			return response()->json($data);
-		}*/
-
-
-		if($request->ajax())
-		{
-			$points = array();
-
-			$sucursals = Sucursal::all();
-			if($sucursals)
-			{
-				foreach ($sucursals as $sucursal) {
-					$points[] = [
-						"coor" => [
-							floatval(\App\Utils::before(',', $sucursal->coordenadas)),
-							floatval(\App\Utils::after(',', $sucursal->coordenadas))
-						],
-						"text" => Str::upper($sucursal->nombre)
-					];
+		  foreach ($sucursals as $sucursal) {
+			  $points[] = [
+          'latitud' => floatval(\App\Utils::before(',', $sucursal->coordenadas)),
+					'longitud' => floatval(\App\Utils::after(',', $sucursal->coordenadas)),
+					'nombre' => Str::upper($sucursal->nombre),
+					'direccion' => Str::upper($sucursal->direccion) . $sucursal->tlf,
+          'photo' => $sucursal->photo,
+        ];
 				}
-			}
-
-			$data = [
-				"center" => [9.3617,-70.4526],
-				"zoom" => 10,
+			
+      $data = [
+				"center" => ['latitud' => 9.4879115, 'longitud' => -70.1867078],
+				"zoom" => 9.75,
 				"points" => $points
 			];
-			return response()->json($data);
+			return view('sucursals.maps', $data);
 		}
 
-		return view('sucursals.maps');
-	}
+    return redirect()->action('HomeController@index');
+  }
 
 	public function search(Request $request)
 	{

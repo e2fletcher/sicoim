@@ -1,86 +1,55 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8"/>
-	<title>Sucursales</title>
-	<style>
-	* { -moz-box-sizing:border-box; -webkit-box-sizing:border-box; box-sizing:border-box; }
-	body { margin:0; font:10pt Arial; color:#242424; }
-	#mapArea { position:absolute; width:100%; height:100%; }
-	</style>
-	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
-	<script src="http://openlayers.org/api/2.13.1/OpenLayers.js"></script>
-	<script>
-	function PlotData(divId, data) {
+@extends('layouts.master')
 
-		function Geo(map, lat, lon) {
-			return new OpenLayers.LonLat(lon, lat)
-				.transform(new OpenLayers.Projection('EPSG:4326'), map.getProjectionObject());
-		}
+@section('head')
+@parent
+  <script src="{{ asset("vendor/webcomponentsjs/webcomponents-lite.min.js") }}"></script>
+  <link rel="import" href="{{ asset('vendor/google-map/google-map.html') }}">
+  <link rel="import" href="{{ asset('vendor/google-map/google-map-marker.html') }}">
+@endsection
 
-		function PlotMarker(map, lat, lon, bottomOffset, onDone) {
-			var imgObj = new Image();
-			img = '{!! asset('img/pushping.png') !!}';
-			imgObj.src = img;
-			imgObj.onload = function() {
-				var sz = new OpenLayers.Size(imgObj.width, imgObj.height);
-				var off = new OpenLayers.Pixel(-(sz.w / 2),
-				bottomOffset ? -sz.h : -(sz.w / 2));
-				var ico = new OpenLayers.Icon(img, sz, off);
-				if(onDone !== undefined && onDone !== null)
-					onDone(new OpenLayers.Marker(Geo(map, lat, lon), ico));
-			};
-		}
+@section('content')
+@parent
+<style>
+  .row {
+    margin-top: 30px;
+  }
+  google-map {
+    height: 600px;
+  }
+</style>
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><i class="fa fa-maps"></i> Mapa de sucursales</div>
+      <div class="panel-body">
+          <google-map latitude="{{ $center['latitud'] }}" longitude="{{ $center['longitud'] }}" fit-to-markers>
+          @foreach($points as $point)
+            <google-map-marker icon="{{ asset('img/pushping.png') }}" latitude="{{ $point['latitud'] }}" longitude="{{ $point['longitud'] }}" title="{{ $point['nombre'] }}">
+              <div class="row">
+                <div class="col-md-6"> 
+                 <img class="img-responsive" src="{{ asset('storage/sucursals/' . $point['photo'])  }}" alt="{{ $point['nombre'] }}" style="width:300px;height:200px">
+                </div>
+                <div class="col-md-6"> 
+                  <div class="row">              
+                    <div class="col-md-12"> 
+                      <small><i class="fa fa-home"></i> {{ $point['nombre']  }}</small>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12"> 
+                      <small><i class="fa fa-home"></i> {{ $point['direccion']  }}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-		var map = new OpenLayers.Map(divId);
-		map.addLayer(new OpenLayers.Layer.OSM());
-		map.setCenter(Geo(map, data.center[0], data.center[1]), data.zoom);
+            </google-map-marker>
+          @endforeach
+					</google-map>              
+        </div>
+      </div>
+    </div>
+  </div>
+@endsection
 
-		var markers = new OpenLayers.Layer.Markers('Markers');
-		map.addLayer(markers);
-
-		var $map = $('#'+divId),
-		$det = $('<div></div>').css({
-			'position':'absolute',
-			'padding':'0 4px',
-			'display':'none',
-			'box-shadow':'2px 2px 3px #999',
-			'background-color':'rgba(255,255,255,.85)',
-			'border':'1px solid #AAA'
-		}).appendTo('body');
-		$.each(data.points, function(i, pt) {
-			PlotMarker(map, pt.coor[0], pt.coor[1], true, function(mk) {
-				markers.addMarker(mk);
-				mk.events.on({
-					mouseover: function(ev) {
-						$det.html(pt.text).css({
-							left: (ev.pageX < $(document).width() / 2) ?
-								ev.pageX+'px' : (ev.pageX - $det.outerWidth())+'px',
-							top: (ev.pageY < $(document).height() / 2) ?
-								ev.pageY+'px' : (ev.pageY - $det.outerHeight())+'px',
-								display: 'block'
-							});
-							$map.css('cursor', 'pointer');
-						},
-					mouseout: function(ev) {
-						$det.empty().css('display', 'none');
-						$map.css('cursor', 'auto');
-					}
-				});
-			});
-		});
-	}
-
-	$(document).ready(function() {
-		$.getJSON('{!! action('SucursalsController@maps') !!}', function(data) {
-			PlotData('mapArea', data);
-		});
-	});
-
-	</script>
-</head>
-<body>
-	<div id="mapArea"></div>
-</body>
-</html>
 
